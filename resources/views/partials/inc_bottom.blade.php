@@ -1,5 +1,6 @@
 <!-- jQuery -->
 <script src="{{asset('backends/plugins/jquery/jquery.min.js')}}"></script>
+
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('backends/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -32,3 +33,8 @@
 {{-- <script src="{{asset('backends/dist/js/demo.js')}}"></script> --}}
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{asset('backends/dist/js/pages/dashboard.js')}}"></script>
+
+<!-- Bootstrap Switch -->
+<script src="{{asset('backends')}}/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+
+

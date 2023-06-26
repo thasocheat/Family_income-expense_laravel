@@ -17,20 +17,7 @@ class IncomesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('income_access')) {
-            return abort(401);
-        }
-        if ($filterBy = Input::get('filter')) {
-            if ($filterBy == 'all') {
-                Session::put('Income.filter', 'all');
-            } elseif ($filterBy == 'my') {
-                Session::put('Income.filter', 'my');
-            }
-        }
-
-                $incomes = Income::all();
-
-        return view('admin.incomes.index', compact('incomes'));
+        
     }
 
     /**

@@ -41,6 +41,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    public function staff()
+    {
+        return $this->hasMany(StaffRecord::class);
+    }
+
     /**
      * The attributes that should be cast.
      *

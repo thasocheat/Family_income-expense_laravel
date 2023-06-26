@@ -25,3 +25,6 @@
 <link id="color" rel="stylesheet" href="{{asset('backends/css/color-1.css')}}" media="screen">
 <!-- Responsive css-->
 <link rel="stylesheet" type="text/css" href="{{asset('backends/css/responsive.css')}}">
+
+<script src="{{ asset('backends/js/jquery.min.js') }} "></script>
+

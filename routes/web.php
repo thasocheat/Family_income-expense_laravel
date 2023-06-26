@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\UserController;
+// use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,8 +52,26 @@ Route::group(['middleware' => 'auth'], function () {
         // End income route
 
 
+
+
+
+
     });
 
+    Route::group(['prefix' => 'manage'], function(){
+        // User route
+        // Route::resource('users', 'UserController');
 
+        Route::resource('users', UserController::class);
+        Route::post('/create_user', [UserController::class, 'store'])->name('users.store');
+
+
+
+    });
+
+    /*************** Users *****************/
+    Route::group(['prefix' => 'users'], function(){
+        Route::get('reset_pass/{id}', 'UserController@reset_pass')->name('users.reset_pass');
+    });
 
 });

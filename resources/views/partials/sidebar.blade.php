@@ -34,7 +34,7 @@
               Dashboard
             </p>
           </a>
-         
+
         </li>
 
         <li class="nav-item">
@@ -46,15 +46,22 @@
           </a>
         </li>
 
+        {{-- User --}}
+
+        @if(Qs::userIsTeamPA())
         <li class="nav-item">
-          <a href="#" class="nav-link">
+            {{-- <a href="{{ route('users.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['users.index', 'users.show', 'users.edit']) ? 'active' : '' }}">
+                <i class="icon-users4"></i> <span> Users</span>
+            </a> --}}
+
+          <a href="{{ route('users.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['users.index', 'users.show', 'users.edit']) ? 'active' : '' }}">
             <i class="nav-icon fas fa-copy"></i>
             <p>
               Users
-              <i class="fas fa-angle-left right"></i>
+              {{-- <i class="fas fa-angle-left right"></i> --}}
             </p>
           </a>
-          <ul class="nav nav-treeview">
+          {{-- <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="pages/layout/top-nav.html" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
@@ -67,11 +74,13 @@
                 <p>Create User</p>
               </a>
             </li>
-           
-          </ul>
-        </li>
 
-        
+          </ul> --}}
+        </li>
+        @endif
+
+
+        {{-- Income --}}
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-chart-pie"></i>
@@ -107,6 +116,46 @@
             </li>
           </ul>
         </li>
+
+         {{-- Expense --}}
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Expense
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('income_view')}}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Expense</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/flot.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Flot</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/inline.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Inline</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pages/charts/uplot.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>uPlot</p>
+                </a>
+              </li>
+            </ul>
+        </li>
+
+
+
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-tree"></i>
@@ -165,7 +214,9 @@
               </a>
             </li>
           </ul>
+
         </li>
+
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-edit"></i>
@@ -201,6 +252,7 @@
             </li>
           </ul>
         </li>
+
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
@@ -230,7 +282,7 @@
             </li>
           </ul>
         </li>
-       
+
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
@@ -244,7 +296,7 @@
 
 
 
-<header class="main-nav">
+{{-- <header class="main-nav">
     <div class="sidebar-user text-center">
         <a class="setting-primary" href="{{ route('account_user') }}"><i data-feather="settings"></i></a><img class="img-90 rounded-circle" src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}" />
         <div class="badge-bottom"><span class="badge badge-primary">New</span></div>
@@ -252,20 +304,7 @@
         <p class="mb-0 font-roboto">{{ Auth::user()->email }}</p>
         <i class="fa-angles-down font-size-sm"></i> &nbsp;{{ ucwords(str_replace('_', ' ', Auth::user()->user_type)) }}
 
-        {{-- <ul>
-            <li>
-                <span><span class="counter">19.8</span>k</span>
-                <p>Follow</p>
-            </li>
-            <li>
-                <span>2 year</span>
-                <p>Experince</p>
-            </li>
-            <li>
-                <span><span class="counter">95.2</span>k</span>
-                <p>Follower</p>
-            </li>
-        </ul> --}}
+
     </div>
     <nav>
         <div class="main-navbar">
@@ -755,4 +794,4 @@
             <div class="right-arrow" id="right-arrow"><i data-feather="arrow-right"></i></div>
         </div>
     </nav>
-</header>
+</header> --}}
