@@ -224,17 +224,12 @@ class Qs
 
     public static function getAppCode()
     {
-        return self::getSetting('system_title') ?: 'CJ';
+        return self::getSetting('system_title') ?: 'TEST';
     }
 
     public static function getSetting($type)
     {
         return Setting::where('type', $type)->first()->description;
-    }
-
-    public static function getCurrentSession()
-    {
-        return self::getSetting('current_session');
     }
 
     public static function getSystemName()
