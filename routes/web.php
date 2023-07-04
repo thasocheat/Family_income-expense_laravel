@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserRecoredsController;
 // use App\Http\Controllers\UserController;
 
 /*
@@ -58,20 +58,50 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 
-    Route::group(['prefix' => 'manage'], function(){
+    Route::group(['prefix' => 'Admin'], function(){
         // User route
-        // Route::resource('users', 'UserController');
 
-        Route::resource('users', UserController::class);
-        Route::post('/create_user', [UserController::class, 'store'])->name('users.store');
+        Route::get('/view/users/', [App\Http\Controllers\Admin\UserRecoredsController::class, 'index'])->name('users.index');
+        Route::get('/show/uers/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'show'])->name('users.show');
+
+
+        Route::get('/create/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'create'])->name('users.create');
+        Route::get('/edit/uers/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'edit'])->name('users.edit');
+
+
+
+        Route::put('/store/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'store'])->name('users.store');
+        Route::put('/update/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'update'])->name('users.update');
+        Route::put('/destroy/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+
+
+
+        // Route::get('/view/incomes', [App\Http\Controllers\Admin\IncomeController::class, 'index'])->name('incomes.index');
+
+
+
+
+        Route::get('/view/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
+
+        Route::get('/create/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'create'])->name('childs.create');
+
+
+        Route::put('/store/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'store'])->name('childs.store');
 
 
 
     });
 
+
+
+
+
+
+
+
     /*************** Users *****************/
     Route::group(['prefix' => 'users'], function(){
-        Route::get('reset_pass/{id}', 'UserController@reset_pass')->name('users.reset_pass');
+        Route::get('reset_pass/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'reset_pass'])->name('users.reset_pass');
     });
 
 });

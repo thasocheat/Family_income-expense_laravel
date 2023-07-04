@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('username', 100)->nullable()->unique();
             $table->string('user_type');
+            $table->string('code', 100)->nullable()->unique();
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('photo')->default(Qs::getDefaultUserImage());

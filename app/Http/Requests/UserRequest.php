@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
 {
+
+    protected $user;
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -44,6 +47,7 @@ class UserRequest extends FormRequest
         ];
         return ($this->method() === 'POST') ? $store : $update;
     }
+
 
     protected function getValidatorInstance()
     {

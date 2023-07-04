@@ -36,6 +36,12 @@ class UserRepo{
         return User::where(['user_type' => $type])->orderBy('name','asc')->get();
     }
 
+    // Get user by type
+    public function getUserByType($type)
+    {
+        return User::where(['user_type' => $type])->orderBy('name', 'asc')->get();
+    }
+
     // Get all the users
     public function getAllTypes(){
         return UserType::all();
@@ -47,10 +53,12 @@ class UserRepo{
     }
 
 
-     // Get the user as child
+     // Get the user to be show on table
      public function getPTAUsers()
      {
-         return User::where('user_type', '<>', 'child')->orderBy('name', 'asc')->get();
+        //  return User::where('user_type', '=', 'child')->orderBy('name', 'asc')->get();
+         return User::orderBy('name', 'asc')->get();
+
      }
 
     //  Find user type by id

@@ -17,7 +17,10 @@ class IncomesController extends Controller
      */
     public function index()
     {
-        
+        // $incomes = Income::all();
+        $data['incomes'] = Income::all();
+
+        return view('admin.incomes.index', $data);
     }
 
     /**

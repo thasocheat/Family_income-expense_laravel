@@ -33,6 +33,7 @@ class UserTableSeeder extends Seeder
             'password' => $password,
             'user_type' => 'admin',
             'username' => 'admin',
+            'code' => strtoupper(Str::random(10)),
             'remember_token' => Str::random(10),
             ],
 
@@ -42,6 +43,7 @@ class UserTableSeeder extends Seeder
                 'user_type' => 'parent',
                 'username' => 'parent',
                 'password' => $password,
+                'code' => strtoupper(Str::random(10)),
                 'remember_token' => Str::random(10),
             ],
 
@@ -50,6 +52,7 @@ class UserTableSeeder extends Seeder
                 'user_type' => 'child',
                 'username' => 'child',
                 'password' => $password,
+                'code' => strtoupper(Str::random(10)),
                 'remember_token' => Str::random(10),
             ],
         ];
@@ -70,6 +73,7 @@ class UserTableSeeder extends Seeder
                     'user_type' => $user_type[$k],
                     'username' => $user_type[$k].$i,
                     'password' => Hash::make($user_type[$k]),
+                    'code' => strtoupper(Str::random(10)),
                     'remember_token' => Str::random(10),
                 ];
 

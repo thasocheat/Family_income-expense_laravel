@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 use Hashids\Hashids;
 use App\Models\Setting;
+use App\Models\ChildRecord;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -11,6 +12,25 @@ use Illuminate\Support\Facades\Auth;
 
 class Qs
 {
+
+    // Error message
+    public static function displayError($errors)
+    {
+        foreach ($errors as $err) {
+            $data[] = $err;
+        }
+        return '
+                <div class="alert alert-danger alert-styled-left alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
+									<span class="font-weight-semibold">Oops!</span> '.
+        implode(' ', $data).'
+							    </div>
+                ';
+    }
+
+
+
+
     // Count the user with their user type to display on dashboard
     public static function userIsCount(){
         return in_array(Auth::user()->user_type, self::getCountType());
@@ -58,7 +78,7 @@ class Qs
         return in_array(Auth::user()->user_type, self::getAP());
     }
 
-    // All Admin and parentfunction
+    // All Admin and parent function
     public static function getAP(){
         return ['admin','parent'];
     }
@@ -81,8 +101,8 @@ class Qs
 
     // Get photo upload diretory
     public static function getUploadPath($user_type){
-        // return 'uplads'.$user_type.'/';
-        return 'uploads';
+        return 'uploads'.$user_type.'/';
+        // return 'uploads/';
 
     }
 
@@ -133,10 +153,10 @@ class Qs
     }
 
     // Parent and they child
-    public static function userIsMyChild($student_id, $parent_id)
+    public static function userIsMyChild($child_id, $parent_id)
     {
-        $data = ['user_id' => $student_id, 'my_parent_id' =>$parent_id];
-        // return StudentRecord::where($data)->exists();
+        $data = ['user_id' => $child_id, 'my_parent_id' =>$parent_id];
+        return ChildRecord::where($data)->exists();
     }
 
     // Message json
@@ -153,13 +173,35 @@ class Qs
         return self::json(__('msg.update_ok'));
     }
 
+    public static function goWithDanger($to = 'dashboard', $msg = NULL)
+    {
+        $msg = $msg ? $msg : __('msg.rnf');
+        return self::goToRoute($to)->with('flash_danger', $msg);
+    }
+
+    public static function goToRoute($goto, $status = 302, $headers = [], $secure = null)
+    {
+        $data = [];
+        $to = (is_array($goto) ? $goto[0] : $goto) ?: 'dashboard';
+        if(is_array($goto)){
+            array_shift($goto);
+            $data = $goto;
+        }
+        return app('redirect')->to(route($to, $data), $status, $headers, $secure);
+    }
+
+    public static function goWithSuccess($to, $msg)
+    {
+        return self::goToRoute($to)->with('flash_success', $msg);
+    }
+
 
 
 
     // Staff
     public static function getStaffRecord($remove = [])
     {
-        $data = ['emp_date',];
+        $data = ['created_at',];
 
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
@@ -175,6 +217,11 @@ class Qs
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
+    public static function generateUserCode()
+    {
+        return substr(uniqid(mt_rand()), -7, 7);
+    }
+
     public static function getAppCode()
     {
         return self::getSetting('system_title') ?: 'CJ';
@@ -183,6 +230,33 @@ class Qs
     public static function getSetting($type)
     {
         return Setting::where('type', $type)->first()->description;
+    }
+
+    public static function getCurrentSession()
+    {
+        return self::getSetting('current_session');
+    }
+
+    public static function getSystemName()
+    {
+        return self::getSetting('system_name');
+    }
+
+
+
+    // Child
+    public static function getUserRecord($remove = [])
+    {
+        $data = ['name', 'email', 'phone', 'phone2', 'dob', 'gender', 'address'];
+
+        return $remove ? array_values(array_diff($data, $remove)) : $data;
+    }
+    public static function getChildData($remove = [])
+    {
+        $data = ['my_parent_id','age'];
+
+        return $remove ? array_values(array_diff($data, $remove)) : $data;
+
     }
 
 

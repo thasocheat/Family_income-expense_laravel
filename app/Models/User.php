@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'code',
         'password',
         'usernaem',
         'phone',
@@ -40,6 +41,11 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function child_record()
+    {
+        return $this->hasOne(ChildRecord::class);
+    }
 
 
     public function staff()

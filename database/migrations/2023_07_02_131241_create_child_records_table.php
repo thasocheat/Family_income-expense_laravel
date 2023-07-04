@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_records', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('child_records', function (Blueprint $table) {
+            $table->id();
             $table->unsignedInteger('user_id');
-            $table->string('code', 100)->nullable()->unique();
-            $table->string('emp_date')->nullable();
+            $table->unsignedInteger('my_income_id')->nullable();
+            $table->unsignedInteger('my_expense_id')->nullable();
+            $table->unsignedInteger('my_parent_id')->nullable();
+            $table->tinyInteger('age')->nullable();
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff_records');
+        Schema::dropIfExists('child_records');
     }
 };

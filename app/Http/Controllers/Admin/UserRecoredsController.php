@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Qs;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepo;
 use App\Http\Requests\UserRequest;
@@ -11,9 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class UserRecoredsController extends Controller
 {
-
     protected $user;
 
     public function __construct(UserRepo $user)
@@ -55,7 +55,13 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $ut = $this->user->getAllTypes();
+
+        $ut2 = $ut->where('level', '>=', 1);
+
+        $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
+        $d['users'] = $this->user->getPTAUsers();
+        return view('admin.users.create', $d);
     }
 
     /**
@@ -69,6 +75,8 @@ class UserController extends Controller
         $data['name'] = ucwords($req->name);
         $data['user_type'] = $user_type;
         $data['photo'] = Qs::getDefaultUserImage();
+        $data['code'] = strtoupper(Str::random(10));
+
 
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
@@ -149,11 +157,18 @@ class UserController extends Controller
         $user = $this->user->find($id);
 
         $user_type = $user->user_type;
+        $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
 
+        $data = $req->except(Qs::getStaffRecord());
         $data['name'] = ucwords($req->name);
 
-        if(!$user_is_teamPA){
+
+
+        if($user_is_staff && !$user_is_teamPA){
+            $data['username'] = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
+        }
+        else {
             $data['username'] = $user->username;
         }
 
@@ -161,11 +176,18 @@ class UserController extends Controller
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$f['name']);
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name']);
             $data['photo'] = asset('storage/' . $f['path']);
         }
 
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
+
+        /* UPDATE STAFF RECORD */
+        if($user_is_staff){
+            $d2 = $req->only(Qs::getStaffRecord());
+            $d2['code'] = $data['username'];
+            $this->user->updateStaffRecord(['user_id' => $id], $d2);
+        }
 
 
         return Qs::jsonUpdateOk();
@@ -185,9 +207,9 @@ class UserController extends Controller
 
         $user = $this->user->find($id);
 
-        if($user->user_type == 'teacher' && $this->userTeachesSubject($user)) {
-            return back()->with('pop_error', __('msg.del_teacher'));
-        }
+        // if($user->user_type == 'parent' && $this->userTeachesSubject($user)) {
+        //     return back()->with('pop_error', __('msg.del_teacher'));
+        // }
 
         $path = Qs::getUploadPath($user->user_type).$user;
         Storage::exists($path) ? Storage::deleteDirectory($path) : true;

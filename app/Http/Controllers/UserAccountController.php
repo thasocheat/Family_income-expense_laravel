@@ -55,7 +55,7 @@ class UserAccountController extends Controller
         $user = Auth::user();
 
         // Update user data on specific user data
-        $data = $user->username ? $req->only(['email','phone','address']) : $req->only(['email','phone','address','username']);
+        $data = $user->username ? $req->only(['email','gender','phone','phone2','address','photo']) : $req->only(['email','gender','phone','phone2','address','username','photo']);
 
         // Check
         if(!$user->username && !$req->username && $req->email){
@@ -63,19 +63,21 @@ class UserAccountController extends Controller
         }
 
         $user_type = $user->user_type;
+        $code = $user->code;
+
 
         if($req->hasFile('photo')){
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type),$f['name']);
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$code,$f['name']);
             $data['photo'] = asset('storage/' . $f['path']);
 
-           
+
         }
 
         $this->user->update($user->id, $data);
-        
+
         return back()->with('flash_success',__('msg.update_ok'));
     }
 }

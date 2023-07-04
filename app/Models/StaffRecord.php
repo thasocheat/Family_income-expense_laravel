@@ -9,7 +9,7 @@ class StaffRecord extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['emp_date', 'user_id'];
+    protected $fillable = ['code', 'emp_date', 'user_id'];
 
     public function user()
     {

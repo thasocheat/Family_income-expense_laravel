@@ -13,19 +13,18 @@
                 </div>
 
                 <div class="card-body">
-                    <ul class="nav nav-tabs nav-tabs-highlight">
+                    {{-- <ul class="nav nav-tabs nav-tabs-highlight">
 
                         @if(Qs::userIsAP())
                             <li class="nav-item"><a href="#edit-profile" class="nav-link active" data-toggle="tab">Manage Profile</a></li>
                         @endif
-                            <li class="nav-item"><a href="#change-pass" class="nav-link" data-toggle="tab"><i class="icon-plus2"></i>Change Password</a></li>
 
-                    </ul>
+                    </ul> --}}
 
                     <div class="tab-content">
-                        @if(Qs::userIsAP())
+                        {{-- @if(Qs::userIsAP()) --}}
 
-                            <div class="tab-pane fade show active" id="edit-profile">
+                            {{-- <div class="tab-pane fade show active" id="edit-profile"> --}}
                                 <div class="row">
                                     <div class="col-md-6  m-3">
                                         <form enctype="multipart/form-data" method="post" action="{{ route('account_user.update') }}">
@@ -55,6 +54,15 @@
                                                     </div>
                                                 </div>
                                             @endif
+
+                                            <div class="form-group row">
+                                                <label for="gender">Gender: <span class="text-danger">*</span></label>
+                                                <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                                    <option value="">{{ $pro_edit->gender }}</option>
+                                                    <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
+                                                    <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
+                                                </select>
+                                            </div>
 
                                             <div class="form-group row">
                                                 <label for="email" class="col-lg-3 col-form-label font-weight-semibold">Email </label>
@@ -97,11 +105,65 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
-                        @endif
+                            {{-- </div> --}}
+                        {{-- @endif --}}
 
-                            <div class="tab-pane fade" id="change-pass">
 
+                            {{-- <div class="tab-pane fade" id="change-pass"> --}}
+
+                                {{-- <div class="row">
+                                    <div class="col-md-8 m-3">
+                                        <form method="post" action="{{ route('account_user.change_pass') }}">
+                                            @csrf @method('put')
+
+                                            <div class="form-group row">
+                                                <label for="current_password" class="col-lg-3 col-form-label font-weight-semibold">Current Password <span class="text-danger">*</span></label>
+                                                <div class="col-lg-9">
+                                                    <input id="current_password" name="current_password"  required type="password" class="form-control" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="password" class="col-lg-3 col-form-label font-weight-semibold">New Password <span class="text-danger">*</span></label>
+                                                <div class="col-lg-9">
+                                                    <input id="password" name="password"  required type="password" class="form-control" >
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="password_confirmation" class="col-lg-3 col-form-label font-weight-semibold">Confirm Password <span class="text-danger">*</span></label>
+                                                <div class="col-lg-9">
+                                                    <input id="password_confirmation" name="password_confirmation"  required type="password" class="form-control" >
+                                                </div>
+                                            </div>
+
+                                            <div class="text-right">
+                                                <button type="submit" class="btn btn-danger">Submit form <i class="icon-paperplane ml-2"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div> --}}
+                            {{-- </div> --}}
+                    </div>
+                </div>
+            </div>
+            
+            @if(Qs::userIsAP())
+
+            <div class="card">
+                <div class="card-header header-elements-inline">
+                    <h6 class="card-title">Change Password</h6>
+                    {!! Qs::getPanelOptions() !!}
+                </div>
+
+                <div class="card-body">
+
+
+                    <div class="tab-content">
+
+
+
+                            {{-- <div class="tab-pane fade" id="change-pass"> --}}
                                 <div class="row">
                                     <div class="col-md-8 m-3">
                                         <form method="post" action="{{ route('account_user.change_pass') }}">
@@ -134,10 +196,11 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            {{-- </div> --}}
                     </div>
                 </div>
             </div>
+            @endif
 
         </div>
     </div>
