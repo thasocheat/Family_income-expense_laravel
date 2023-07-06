@@ -56,12 +56,14 @@
                                             @endif
 
                                             <div class="form-group row">
-                                                <label for="gender">Gender: <span class="text-danger">*</span></label>
-                                                <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
-                                                    <option value="">{{ $pro_edit->gender }}</option>
-                                                    <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
-                                                    <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
-                                                </select>
+                                                <label for="gender" class="col-lg-3 col-form-label font-weight-semibold">Gender: <span class="text-danger">*</span></label>
+                                                <div class="col-lg-9">
+                                                    <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                                        <option value=""></option>
+                                                        <option {{ $pro_edit->gender == 'Male' ? 'selected' : '' }} value="Male">Male</option>
+                                                        <option {{ $pro_edit->gender  == 'Female' ? 'selected' : '' }} value="Female">Female</option>
+                                                    </select>
+                                                </div>
                                             </div>
 
                                             <div class="form-group row">
@@ -95,7 +97,12 @@
                                             <div class="form-group row">
                                                 <label for="address" class="col-lg-3 col-form-label font-weight-semibold">Change Photo </label>
                                                 <div class="col-lg-9">
-                                                    <input  accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc>
+                                                    <input  accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
+                                                </div>
+                                                <div class="form-group">
+                                           
+                                                    <img id="showImage" src="{{ (!empty($pro_edit->photo)) ? Auth::user()->photo : url('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+                                                   
                                                 </div>
                                             </div>
 
@@ -207,7 +214,29 @@
 
 </div>
 
-
+<script type="text/javascript">
+    // $(document).ready(function(){
+    //     $('#photo').change(function(){
+    //         var reader = new FileReader();
+    //         reader.onload = function(e){
+    //             $('#showImage').attr('src',e.target.result);
+    //         }
+    //         reader.readAsDataURL(e.target.files['0']);
+    //     });
+    // });
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+    
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var image = document.getElementById('showImage');
+            image.src = dataURL;
+        };
+    
+        reader.readAsDataURL(input.files[0]);
+    }
+    </script>
 
 
 @endsection

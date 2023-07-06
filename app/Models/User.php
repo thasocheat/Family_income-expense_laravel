@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'code',
         'password',
-        'usernaem',
+        'username',
         'phone',
         'phone2',
         'dob',
@@ -50,7 +50,12 @@ class User extends Authenticatable
 
     public function staff()
     {
-        return $this->hasMany(StaffRecord::class);
+        return $this->hasOne(StaffRecord::class);
+    }
+
+    public function findByEmail($query, $email)
+    {
+        return $query->where('email', $email)->first();
     }
 
     /**

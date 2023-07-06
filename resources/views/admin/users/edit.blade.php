@@ -6,14 +6,17 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h6 class="card-title">Create New user</h6>
-                    {!! Qs::getPanelOptions() !!}
+                    <h6 class="card-title">Edit user</h6>
+                    <a href="{{ route('users.index') }}" class="btn btn-info float-right">Back</a>
+
+
                 </div>
 
                 <div class="card-body">
                     <form method="post" enctype="multipart/form-data" class="wizard-form steps-validation ajax-update" action="{{ route('users.update', Qs::hash($user->id)) }}" data-fouc>
                         @csrf @method('PUT')
                         <h6>Personal Data</h6>
+
                         <fieldset>
                             <div class="row">
                                 <div class="col-md-2">
@@ -32,6 +35,13 @@
                                     </div>
                                 </div>
 
+                                {{-- <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>UserName: <span class="text-danger">*</span></label>
+                                        <input value="{{ $user->username }}" required type="text" name="username" placeholder="User Name" class="form-control">
+                                    </div>
+                                </div> --}}
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Address: <span class="text-danger">*</span></label>
@@ -45,6 +55,7 @@
                                     <div class="form-group">
                                         <label>Email address: </label>
                                         <input value="{{ $user->email }}" type="email" name="email" class="form-control" placeholder="your@email.com">
+
                                     </div>
                                 </div>
 
@@ -87,7 +98,7 @@
                                 </div>
                             </div>
 
-                            {{--Passport--}}
+                            {{-- Passport
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -96,11 +107,41 @@
                                         <span class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</span>
                                     </div>
                                 </div>
+                            </div> --}}
+
+                            <div class="row">
+                                {{--PASSPORT--}}
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="d-block">Upload Passport Photo:</label>
+                                        <input value="{{ old('photo') }}" accept="image/*" type="file" id="photo" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
+                                        <span class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</span>
+                                        @error('photo')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <div class="form-group">
+                                        @if (!empty($user->photo))
+                                            @php
+                                                $imageUrl = asset('storage/uploads/' . $userType . '/' . basename($imageName));
+                                                $relativeUrl = str_replace(url('/'), '', $imageUrl);
+                                            @endphp
+                                            <img id="showImage" src="{{ $relativeUrl }}" width="100" height="auto" alt="User Photo">
+                                        @else
+
+                                            <img id="showImage" src="{{ asset('storage/uploads/default-photo.png') }}" width="100" height="auto" alt="Default Photo">
+
+                                        @endif
+                                        {{-- {{ (!empty($user->photo)) ? asset('storage/uploads/' . $userType . '/' . basename($imageName)) : asset('storage/uploads/default-photo.png') }} --}}
+                                    </div>
+                                </div>
                             </div>
 
                         </fieldset>
 
-                        <button type="submit" class="btn btn-primary">Submit</button>
+
+
+                        <button type="submit" class="btn btn-primary">Update</button>
 
 
                     </form>
@@ -111,4 +152,28 @@
     </div>
 
 </div>
+
+<script type="text/javascript">
+    // $(document).ready(function(){
+    //     $('#photo').change(function(){
+    //         var reader = new FileReader();
+    //         reader.onload = function(e){
+    //             $('#showImage').attr('src',e.target.result);
+    //         }
+    //         reader.readAsDataURL(e.target.files['0']);
+    //     });
+    // });
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var image = document.getElementById('showImage');
+            image.src = dataURL;
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+    </script>
 @endsection

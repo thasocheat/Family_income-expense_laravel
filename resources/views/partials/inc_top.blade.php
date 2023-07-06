@@ -19,3 +19,14 @@
 <!-- summernote -->
 <link rel="stylesheet" href="{{asset('backends/plugins/summernote/summernote-bs4.min.css')}}">
 
+<link rel="stylesheet" href="{{asset('backends/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+
+
+<link rel="stylesheet" href="{{asset('backends/plugins/toastr/toastr.min.css')}}">
+
+
+
+
+<script src="{{ asset('backends/js/jquery.min.js') }} "></script>
+
+

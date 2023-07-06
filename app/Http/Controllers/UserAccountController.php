@@ -22,6 +22,15 @@ class UserAccountController extends Controller
 
     // Edit profile function
     public function edit_profile(){
+        // $id = Qs::decodeHash($id);
+        // $user = $this->user->find($id);
+        // $userType = $user->user_type;
+        // $folderName = Qs::getUploadPath($userType);
+        // $data = [
+        //     'user' => $user,
+        //     'users' => $this->user->getPTAUsers(),
+        //     'folderName' => $folderName,
+        // ];
 
         $profile_edit['pro_edit'] = Auth::user();
 
@@ -69,15 +78,20 @@ class UserAccountController extends Controller
         if($req->hasFile('photo')){
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$code,$f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            $f['name'] = $code .'.'. $f['ext'];
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
+            $data['photo'] = 'storage/' . $f['path'];
 
 
         }
 
         $this->user->update($user->id, $data);
 
-        return back()->with('flash_success',__('msg.update_ok'));
+        // return back()->with('flash_success',__('msg.update_ok'));
+        $notification = array(
+            'message' => 'Profile Updated Successfully',
+            'alert-type' => 'success'
+        );
+        return back()->with($notification);
     }
 }

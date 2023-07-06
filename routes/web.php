@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserRecoredsController;
-// use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,9 +69,13 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-        Route::put('/store/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'store'])->name('users.store');
-        Route::put('/update/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'update'])->name('users.update');
-        Route::put('/destroy/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+        Route::post('/store/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'store'])->name('users.store');
+
+
+        Route::put('/update/users/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'update'])->name('users.update');
+        Route::get('/destroy/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+        // Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+
 
 
 

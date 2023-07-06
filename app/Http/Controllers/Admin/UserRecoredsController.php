@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Qs;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepo;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -18,9 +21,9 @@ class UserRecoredsController extends Controller
 
     public function __construct(UserRepo $user)
     {
-        $this->middleware('teamPA', ['only' => ['index', 'store', 'edit', 'update'] ]);
+        $this->middleware('teamPA', ['only' => ['store', 'edit', 'update','reset_pass'] ]);
 
-        $this->middleware('admin', ['only' => ['reset_pass','destroy'] ]);
+        $this->middleware('admin', ['only' => ['destroy'] ]);
 
         $this->user = $user;
     }
@@ -35,7 +38,9 @@ class UserRecoredsController extends Controller
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
         $d['users'] = $this->user->getPTAUsers();
-        return view('admin.users.index', $d);
+
+
+        return view('admin.users.user_list', $d);
     }
 
     public function reset_pass($id)
@@ -55,6 +60,7 @@ class UserRecoredsController extends Controller
      */
     public function create()
     {
+
         $ut = $this->user->getAllTypes();
 
         $ut2 = $ut->where('level', '>=', 1);
@@ -87,13 +93,27 @@ class UserRecoredsController extends Controller
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
 
-        if($req->hasFile('photo')) {
-            $photo = $req->file('photo');
-            $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type).$data['code'], $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+        try {
+            // File upload logic here
+            if($req->hasFile('photo')) {
+                $photo = $req->file('photo');
+                $f = Qs::getFileMetaData($photo);
+                $f['name'] = $data['code'] .'.'. $f['ext'];
+                $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
+                $data['photo'] = 'storage/' . $f['path'];
+
+            }
+            // else {
+            //     // If photo is not present, assign the default photo path
+            //     $data['photo'] = 'storage/uploads/default-photo.png';
+            // }
+        } catch (HttpResponseException $req) {
+            // Log or handle the exception
+            return back()->with('flash_error', 'Failed to upload the file. Please try again.');
         }
+
+
+
 
         /* Ensure that both username and Email are not blank*/
         if(!$uname && !$req->email){
@@ -110,7 +130,13 @@ class UserRecoredsController extends Controller
             $this->user->createStaffRecord($d2);
         }
 
-        return Qs::jsonStoreOk();
+        $notification = array(
+            'message' => 'User Store Successfully',
+            'alert-type' => 'success'
+        );
+
+        // return back()->with('flash_success', 'Data save successfully.');
+        return back()->with($notification);
     }
 
     /**
@@ -122,6 +148,8 @@ class UserRecoredsController extends Controller
         if(!$user_id){return back();}
 
         $data['user'] = $this->user->find($user_id);
+
+
 
         /* Prevent Other Students from viewing Profile of others*/
         if(Auth::user()->id != $user_id && !Qs::userIsTeamPAT() && !Qs::userIsMyChild(Auth::user()->id, $user_id)){
@@ -137,9 +165,19 @@ class UserRecoredsController extends Controller
     public function edit($id)
     {
         $id = Qs::decodeHash($id);
-        $d['user'] = $this->user->find($id);
-        $d['users'] = $this->user->getPTAUsers();
-        return view('admin.users.edit', $d);
+
+
+        $user = $this->user->find($id);
+        $userType = $user->user_type;
+        $imageName = $user->photo;
+
+        $data = [
+            'user' => $user,
+            'users' => $this->user->getPTAUsers(),
+            'userType' => $userType,
+            'imageName' => $imageName,
+        ];
+        return view('admin.users.edit', $data);
     }
 
     /**
@@ -148,49 +186,73 @@ class UserRecoredsController extends Controller
     public function update(UserRequest $req, $id)
     {
         $id = Qs::decodeHash($id);
+        $user_id = intval($id);
+
+
 
         // Redirect if Making Changes to Head of Super Admins
-        if(Qs::headA($id)){
+        if(Qs::headA($user_id)){
             return Qs::json(__('msg.denied'), FALSE);
         }
 
         $user = $this->user->find($id);
 
-        $user_type = $user->user_type;
+        $user_type = $user ? $user->user_type : null;
+
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
 
         $data = $req->except(Qs::getStaffRecord());
         $data['name'] = ucwords($req->name);
 
+        if (!$user_is_staff || $user_is_teamPA) {
+            unset($data['email']);
+        }
 
+        // if (!$user) {
+        //     $notification = array(
+        //         'message' => 'User not found',
+        //         'alert-type' => 'error'
+        //     );
+        //    return back()->with($notification);
+        // }
 
         if($user_is_staff && !$user_is_teamPA){
             $data['username'] = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
+            // $data['username'] = Qs::getAppCode();
+
         }
         else {
-            $data['username'] = $user->username;
+            // $data['username'] = $user->username;
+            if (!$user) {
+                $data['username'] = $user->username; // Retain the old username value
+            }
         }
+
 
         if($req->hasFile('photo')) {
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
-            $f['name'] = 'photo.' . $f['ext'];
-            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name']);
-            $data['photo'] = asset('storage/' . $f['path']);
+            $f['name'] = $data['code'] .'.'. $f['ext'];
+            $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
+            $data['photo'] = 'storage/' . $f['path'];
         }
 
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
 
         /* UPDATE STAFF RECORD */
-        if($user_is_staff){
+        if(in_array($user_type, Qs::getStaff())){
             $d2 = $req->only(Qs::getStaffRecord());
             $d2['code'] = $data['username'];
             $this->user->updateStaffRecord(['user_id' => $id], $d2);
         }
 
+        $notification = array(
+            'message' => 'User Update Successfully',
+            'alert-type' => 'info'
+        );
 
-        return Qs::jsonUpdateOk();
+        return back()->with($notification);
     }
 
     /**
@@ -198,23 +260,50 @@ class UserRecoredsController extends Controller
      */
     public function destroy($id)
     {
-        $id = Qs::decodeHash($id);
+        $user = User::find($id);
 
-        // Redirect if Making Changes to Head of Super Admins
-        if(Qs::headA($id)){
-            return back()->with('pop_error', __('msg.denied'));
-        }
 
-        $user = $this->user->find($id);
+        // $id = Qs::decodeHash($id);
 
-        // if($user->user_type == 'parent' && $this->userTeachesSubject($user)) {
-        //     return back()->with('pop_error', __('msg.del_teacher'));
+        // $user_id = intval($id);
+
+        // // Redirect if Making Changes to Head of Super Admins
+        // if (Qs::headA($user_id)) {
+        //     return Qs::json(__('msg.denied'), false);
         // }
 
-        $path = Qs::getUploadPath($user->user_type).$user;
-        Storage::exists($path) ? Storage::deleteDirectory($path) : true;
-        $this->user->delete($user->id);
+        // $user = $this->user->find($user_id);
 
-        return back()->with('flash_success', __('msg.del_ok'));
+        // if (!$user) {
+        //     $notification = [
+        //         'message' => 'User not found',
+        //         'alert-type' => 'error'
+        //     ];
+        //     return dd($user_id);
+        // }
+
+
+
+        // $path = Qs::getUploadPath($user->user_type).$user;
+        // Storage::exists($path) ? Storage::deleteDirectory($path) : true;
+        $old_image = $user->photo;
+        // Storage::exists($old_image) ? Storage::delete($old_image) : true;
+        // Delete the image file
+        if (Storage::exists($old_image)) {
+            // Storage::delete($old_image);
+            Storage::disk('local')->delete($old_image);
+        }
+
+
+        // $this->user->delete($user->id);
+        User::find($id)->delete();
+
+        $notification = array(
+            'message' => 'User Delete Successfully',
+            'alert-type' => 'success'
+        );
+
+        // return Redirect()->back()->with($notification);
+        return dd($old_image);
     }
 }

@@ -82,7 +82,6 @@
 
         {{-- Child --}}
         @if(Qs::userIsTeamPAT())
-            @if(Qs::userIsTeamPA())
 
             <li class="nav-item">
 
@@ -124,7 +123,6 @@
           </ul>
 
             </li>
-            @endif
         @endif
 
 

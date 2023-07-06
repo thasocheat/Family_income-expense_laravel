@@ -20,6 +20,11 @@ class ChildRepo{
         return ChildRecord::where(['status' => 0]);
     }
 
+    public function statusChilds()
+    {
+        return ChildRecord::where(['status' => 1])->orderByDesc('created_at');
+    }
+
     public function createRecord($data)
     {
         return ChildRecord::create($data);
@@ -33,6 +38,11 @@ class ChildRepo{
     public function update(array $where, array $data)
     {
         return ChildRecord::where($where)->update($data);
+    }
+
+    public function exists($child_id)
+    {
+        return $this->getRecord(['user_id' => $child_id])->exists();
     }
 
 }

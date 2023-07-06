@@ -45,7 +45,7 @@ class Qs
     // Function to get default user profile
     public static function getDefaultUserImage()
     {
-        return asset('backends/images/user/user.png');
+        return 'backends/images/user/user.png';
     }
 
     // Get all user type
@@ -101,7 +101,7 @@ class Qs
 
     // Get photo upload diretory
     public static function getUploadPath($user_type){
-        return 'uploads'.$user_type.'/';
+        return 'uploads/'.$user_type;
         // return 'uploads/';
 
     }
@@ -117,7 +117,7 @@ class Qs
     public static function getTeamPA()
     {
         // return ['admin'];
-        return ['admin', 'parent'];
+        return ['admin'];
 
     }
     public static function getTeamPAT()
@@ -138,7 +138,7 @@ class Qs
     // Hash code
     public static function hash($id)
     {
-        $date = date('dMY').'CJ';
+        $date = date('dMY').'TEST';
         $hash = new Hashids($date, 14);
         return $hash->encode($id);
     }
@@ -146,10 +146,23 @@ class Qs
     // Dashcod
     public static function decodeHash($str, $toString = true)
     {
-        $date = date('dMY').'CJ';
+        $date = date('dMY').'TEST';
         $hash = new Hashids($date, 14);
-        $decoded = $hash->decode($str);
-        return $toString ? implode(',', $decoded) : $decoded;
+        // $decoded = $hash->decode($str);
+        // return $toString ? implode(',', $decoded) : $decoded;
+        if ($str !== null && $str !== '') {
+            $decoded = $hash->decode($str);
+            return $toString ? implode(',', $decoded) : $decoded;
+        }
+
+        return $toString ? '' : [];
+
+
+    }
+
+    public static function generateUserCode()
+    {
+        return substr(uniqid(mt_rand()), -7, 7);
     }
 
     // Parent and they child
@@ -217,10 +230,7 @@ class Qs
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
-    public static function generateUserCode()
-    {
-        return substr(uniqid(mt_rand()), -7, 7);
-    }
+
 
     public static function getAppCode()
     {

@@ -29,10 +29,10 @@
                                 <td class="font-weight-bold">Name</td>
                                 <td>{{ $user->name }}</td>
                             </tr>
-                            <tr>
+                            {{-- <tr>
                                 <td class="font-weight-bold">ADM_NO</td>
                                 <td>{{ $adm_no }}</td>
-                            </tr>
+                            </tr> --}}
                             <tr>
                                 <td class="font-weight-bold">Class</td>
                                 <td>{{ $my_class->name.' '.$section->name }}</td>
@@ -45,10 +45,7 @@
                                     </td>
                                 </tr>
                             @endif
-                            <tr>
-                                <td class="font-weight-bold">Year Admitted</td>
-                                <td>{{ $year_admitted }}</td>
-                            </tr>
+
                             <tr>
                                 <td class="font-weight-bold">Gender</td>
                                 <td>{{ $user->gender }}</td>
@@ -73,36 +70,7 @@
                                 <td class="font-weight-bold">Birthday</td>
                                 <td>{{$user->dob }}</td>
                             </tr>
-                            @if($user->bg_id)
-                            <tr>
-                                <td class="font-weight-bold">Blood Group</td>
-                                <td>{{$user->blood_group->name }}</td>
-                            </tr>
-                            @endif
-                            @if($user->nal_id)
-                            <tr>
-                                <td class="font-weight-bold">Nationality</td>
-                                <td>{{$user->nationality->name }}</td>
-                            </tr>
-                            @endif
-                            @if($user->state_id)
-                            <tr>
-                                <td class="font-weight-bold">State</td>
-                                <td>{{$user->state->name }}</td>
-                            </tr>
-                            @endif
-                            @if($user->lga_id)
-                            <tr>
-                                <td class="font-weight-bold">LGA</td>
-                                <td>{{$user->lga->name }}</td>
-                            </tr>
-                            @endif
-                            @if($dorm_id)
-                                <tr>
-                                    <td class="font-weight-bold">Dormitory</td>
-                                    <td>{{$dorm->name.' '.$dorm_room_no }}</td>
-                                </tr>
-                            @endif
+
 
                             </tbody>
                         </table>

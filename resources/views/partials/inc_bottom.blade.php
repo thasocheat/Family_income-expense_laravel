@@ -1,5 +1,5 @@
 <!-- jQuery -->
-<script src="{{asset('backends/plugins/jquery/jquery.min.js')}}"></script>
+{{-- <script src="{{asset('backends/plugins/jquery/jquery.min.js')}}"></script> --}}
 
 <!-- jQuery UI 1.11.4 -->
 <script src="{{asset('backends/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
@@ -14,8 +14,8 @@
 <!-- Sparkline -->
 <script src="{{asset('backends/plugins/sparklines/sparkline.js')}}"></script>
 <!-- JQVMap -->
-<script src="{{asset('backends/plugins/jqvmap/jquery.vmap.min.js')}}"></script>
-<script src="{{asset('backends/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script>
+{{-- <script src="{{asset('backends/plugins/jqvmap/jquery.vmap.min.js')}}"></script> --}}
+{{-- <script src="{{asset('backends/plugins/jqvmap/maps/jquery.vmap.usa.js')}}"></script> --}}
 <!-- jQuery Knob Chart -->
 <script src="{{asset('backends/plugins/jquery-knob/jquery.knob.min.js')}}"></script>
 <!-- daterangepicker -->
@@ -37,4 +37,18 @@
 <!-- Bootstrap Switch -->
 <script src="{{asset('backends')}}/plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
+<script src="{{asset('backends')}}/plugins/sweetalert2/sweetalert2.min.js"></script>
+<script src="{{asset('backends')}}/js/notify/pnotify.min.js"></script>
 
+<script src="{{asset('backends')}}/plugins/toastr/toastr.min.js"></script>
+
+
+
+<script src="{{asset('backends')}}/js/uploader_bootstrap.js"></script>
+<script src="{{asset('backends')}}/js/validate.min.js"></script>
+
+
+
+
+
+@include('partials.js.custom_js')

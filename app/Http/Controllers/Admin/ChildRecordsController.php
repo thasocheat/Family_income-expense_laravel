@@ -18,8 +18,8 @@ class ChildRecordsController extends Controller
 
     public function __construct(UserRepo $user, ChildRepo $child)
     {
-        $this->middleware('teamPA', ['only' => ['edit','update', 'reset_pass', 'create', 'store'] ]);
-        $this->middleware('admin', ['only' => ['destroy',] ]);
+        $this->middleware('teamPAT', ['only' => ['edit','update', 'reset_pass', 'create', 'store'] ]);
+        $this->middleware('admin', ['only' => ['edit','update', 'reset_pass', 'create', 'store','destroy',] ]);
 
 
             $this->user = $user;

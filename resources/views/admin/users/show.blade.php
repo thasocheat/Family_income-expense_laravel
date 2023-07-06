@@ -86,7 +86,7 @@
                                                 <td>{{$user->lga->name }}</td>
                                             </tr>
                                         @endif --}}
-                                        
+
                                         @if($user->user_type == 'parent')
                                             <tr>
                                                 <td class="font-weight-bold">Children/Ward</td>
@@ -99,7 +99,7 @@
                                             </tr>
                                         @endif
 
-                                        @if($user->user_type == 'teacher')
+                                        {{-- @if($user->user_type == 'teacher')
                                             <tr>
                                                 <td class="font-weight-bold">My Subjects</td>
                                                 <td>
@@ -108,7 +108,7 @@
                                                     @endforeach
                                                 </td>
                                             </tr>
-                                        @endif
+                                        @endif --}}
 
                                         </tbody>
                                     </table>
