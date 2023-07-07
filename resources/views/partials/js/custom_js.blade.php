@@ -75,7 +75,7 @@
     }
 
     $(function(){
-        $(document).on('click','.fas.fa-delete'+id, function(e){
+        $(document).on('click','#delete', function(e){
             e.preventDefault();
             var link = $(this).attr("href");
 

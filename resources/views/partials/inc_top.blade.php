@@ -7,7 +7,7 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet" href="{{asset('backends/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
 <!-- iCheck -->
-<link rel="stylesheet" href="{{asset('backends/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('backends/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}"> --}}
 <!-- JQVMap -->
 <link rel="stylesheet" href="{{asset('backends/plugins/jqvmap/jqvmap.min.css')}}">
 <!-- Theme style -->
@@ -15,12 +15,13 @@
 <!-- overlayScrollbars -->
 <link rel="stylesheet" href="{{asset('backends/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')}}">
 <!-- Daterange picker -->
-<link rel="stylesheet" href="{{asset('backends/plugins/daterangepicker/daterangepicker.css')}}">
+{{-- <link rel="stylesheet" href="{{asset('backends/plugins/daterangepicker/daterangepicker.css')}}"> --}}
 <!-- summernote -->
 <link rel="stylesheet" href="{{asset('backends/plugins/summernote/summernote-bs4.min.css')}}">
 
 <link rel="stylesheet" href="{{asset('backends/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
-
+ <!-- daterange picker -->
+ <link rel="stylesheet" href="{{asset('backends')}}/plugins/daterangepicker/daterangepicker.css">
 
 <link rel="stylesheet" href="{{asset('backends/plugins/toastr/toastr.min.css')}}">
 

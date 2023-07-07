@@ -38,7 +38,7 @@
                                         <th>S/N</th>
                                         <th>Photo</th>
                                         <th>Name</th>
-                                        <th>Username</th>
+                                        {{-- <th>Username</th> --}}
                                         <th>Phone</th>
                                         <th>Email</th>
                                         <th>Action</th>
@@ -48,21 +48,26 @@
                                     @foreach($users as $u)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
-                                            <td>{{ $u->name }}</td>
-                                            <td>{{ $u->username }}</td>
-                                            <td> @if (!empty($user->photo))
+                                            {{-- <td> 
+                                                @if (!empty($users->photo))
                                                 @php
                                                     $imageUrl = asset('storage/uploads/' . $userType . '/' . basename($imageName));
-                                                    $relativeUrl = str_replace(url('/'), '', $imageUrl);
+
+                                                    $relativeUrl = str_replace(asset('/'), '', $imageUrl);
                                                 @endphp
-                                                    <img id="showImage" src="{{ $relativeUrl }}" alt="User Photo">
+                                                    <img width="50" src="{{ $imageUrl }}" alt="User Photo">
                                                 @else
 
-                                                    <img id="showImage" src="{{ asset('storage/uploads/default-photo.png') }}" alt="Default Photo">
+                                                    <img width="50" src="{{ asset('storage/uploads/default-photo.png') }}" alt="Default Photo">
 
                                                 @endif
-                                            </td>
+                                            </td> --}}
+                                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
+                                            <td>{{ $u->name }}</td>
+                                            {{-- <td>{{ $u->username }}</td> --}}
+                                            <td>{{ $u->phone }}</td>
+
+                                          
                                             <td>{{ $u->email }}</td>
                                             <td class="text-center">
                                                 <div class="list-icons">
@@ -79,8 +84,8 @@
 
                                                                 {{--Delete--}}
                                                                 {{-- <a id="delete"  href="{{ route('users.destroy', Qs::hash($u->id)) }}" title="Delete" class="fas fa-delete p-1"><i class="fa-trash"></i></a> --}}
-                                                                <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i></a>
-                                                        <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
+                                                                <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i></a>
+                                                                {{-- <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form> --}}
                                                         {{-- @endif --}}
 
                                                     </div>
@@ -100,7 +105,7 @@
                                         <th>S/N</th>
                                         <th>Photo</th>
                                         <th>Name</th>
-                                        <th>Username</th>
+                                        {{-- <th>Username</th> --}}
                                         <th>Phone</th>
                                         <th>Email</th>
                                         <th>Action</th>
@@ -112,7 +117,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
                                             <td>{{ $u->name }}</td>
-                                            <td>{{ $u->username }}</td>
+                                            {{-- <td>{{ $u->username }}</td> --}}
                                             <td>{{ $u->phone }}</td>
                                             <td>{{ $u->email }}</td>
                                             <td class="text-center">
@@ -129,9 +134,9 @@
                                                                   <form method="post" id="item-reset-{{ Qs::hash($u->id) }}" action="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="hidden"> @csrf @method('delete') </form>
 
                                                                   {{--Delete--}}
-                                                                  <a id="delete"  href="{{ route('users.destroy', Qs::hash($u->id)) }}" title="Delete" class="fas fa-delete p-1"><i class="fa-trash"></i></a>
-                                                                  <a id="{{ Qs::hash($u->id) }}" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i> Delete</a>
-                                                                <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form>
+                                                                  {{-- <a id="delete"  href="{{ route('users.destroy', Qs::hash($u->id)) }}" title="Delete" class="fas fa-delete p-1"><i class="fa-trash"></i></a> --}}
+                                                                  <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i></a>
+                                                                {{-- <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form> --}}
                                                           {{-- @endif --}}
 
                                                     </div>

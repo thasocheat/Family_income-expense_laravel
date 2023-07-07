@@ -31,21 +31,32 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Full Name: <span class="text-danger">*</span></label>
-                                        <input value="{{ $user->name }}" required type="text" name="name" placeholder="Full Name" class="form-control">
+                                        <input value="{{ $user->name }}"  type="text" name="name" placeholder="Full Name" class="form-control">
                                     </div>
                                 </div>
 
-                                {{-- <div class="col-md-4">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>UserName: <span class="text-danger">*</span></label>
-                                        <input value="{{ $user->username }}" required type="text" name="username" placeholder="User Name" class="form-control">
+                                        <input value="{{ $user->username }}"  type="text" name="username" placeholder="User Name" class="form-control">
                                     </div>
-                                </div> --}}
+                                </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Address: <span class="text-danger">*</span></label>
-                                        <input value="{{ $user->address }}" class="form-control" placeholder="Address" name="address" type="text" required>
+                                        <input value="{{ $user->address }}" class="form-control" placeholder="Address" name="address" type="text" >
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Date of Birth:</label>
+                                        <div class="input-group date" id="date_of_birth" data-target-input="nearest">
+                                            <input type="text" value="{{ \Carbon\Carbon::parse($user->dob)->format('m/d/Y') }}" name="dob" class="form-control datetimepicker-input" data-target="#date_of_birth" placeholder="">
+                                            <div class="input-group-append" data-target="#date_of_birth" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +90,7 @@
                                 @if(in_array($user->user_type, Qs::getStaff()))
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Date of Employment:</label>
+                                            <label>Date of Birth:</label>
                                             <input autocomplete="off" name="created_at" value="{{ $user->first()->created_at }}" type="text" class="form-control date-pick" placeholder="Select Date...">
 
                                         </div>
@@ -89,7 +100,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="gender">Gender: <span class="text-danger">*</span></label>
-                                        <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                        <select class="select form-control" id="gender" name="gender"  data-fouc data-placeholder="Choose..">
                                             <option value=""></option>
                                             <option {{ ($user->gender == 'Male') ? 'selected' : '' }} value="Male">Male</option>
                                             <option {{ ($user->gender == 'Female') ? 'selected' : '' }} value="Female">Female</option>
@@ -113,7 +124,7 @@
                                 {{--PASSPORT--}}
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="d-block">Upload Passport Photo:</label>
+                                        <label class="d-block">Upload Photo:</label>
                                         <input value="{{ old('photo') }}" accept="image/*" type="file" id="photo" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
                                         <span class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</span>
                                         @error('photo')

@@ -31,6 +31,10 @@ class UserRepo{
         return User::find($id);
     }
 
+    public function getAllUser($user_type,$photo){
+        return User::get()->all();
+    }
+
     // Get user by they type function
     public function getAllUserByType($type){
         return User::where(['user_type' => $type])->orderBy('name','asc')->get();

@@ -33,8 +33,8 @@ class UserRequest extends FormRequest
             'user_type' => 'required',
             'gender' => 'required|string',
             'phone' => 'sometimes|nullable|string|min:6|max:20',
-            'email' => 'sometimes|nullable|email|max:100|unique:users',
-            'username' => 'sometimes|nullable|alpha_dash|min:8|max:100|unique:users',
+            'email' => 'required|nullable|email|max:100|unique:users',
+            'username' => 'required|nullable|string|min:6|max:150|unique:users',
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',
         ];
@@ -53,6 +53,7 @@ class UserRequest extends FormRequest
             //     Rule::unique('users')->ignore($this->route('id')),
             //     // 'unique:users,email'
             // ],
+            'username' => 'sometimes|nullable|string|min:6|max:150|unique:users',
 
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',

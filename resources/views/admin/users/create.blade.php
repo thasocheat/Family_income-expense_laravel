@@ -27,7 +27,7 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <label for="user_type"> Select User: <span class="text-danger">*</span></label>
-                                            <select required data-placeholder="Select User" class="form-control select" name="user_type" id="user_type">
+                                            <select  data-placeholder="Select User" class="form-control select" name="user_type" id="user_type">
                                     @foreach($user_types as $ut)
                                         <option value="{{ Qs::hash($ut->id) }}">{{ $ut->name }}</option>
                                     @endforeach
@@ -48,7 +48,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label>Address: <span class="text-danger">*</span></label>
-                                            <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" required>
+                                            <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" >
                                              @error('address')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
@@ -59,7 +59,7 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Email address: </label>
+                                            <label>Email address: <span class="text-danger">*</span></label>
                                             <input value="{{ old('email') }}" type="email" name="email" class="form-control" placeholder="your@email.com">
                                              @error('email')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -69,7 +69,7 @@
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Username: </label>
+                                            <label>Username: <span class="text-danger">*</span></label>
                                             <input value="{{ old('username') }}" type="text" name="username" class="form-control" placeholder="Username">
                                              @error('username')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -102,18 +102,35 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Date of Employment:</label>
-                                            <input autocomplete="off" name="emp_date" value="{{ old('emp_date') }}" type="text" class="form-control date-pick" placeholder="Select Date...">
-                                             @error('emp_date')
+                                            <label>Date of Birth:</label>
+                                            <div class="input-group date" id="date_of_birth" data-target-input="nearest">
+                                                <input type="text" value="{{ old('dob') }}" name="dob" class="form-control datetimepicker-input" data-target="#date_of_birth" placeholder="Select Date...">
+                                                <div class="input-group-append" data-target="#date_of_birth" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>Date of Em:</label>
+                                            <div class="input-group date" id="date_of_em" data-target-input="nearest">
+                                                <input type="text" name="emp_date" value="{{ old('emp_date') }}" class="form-control datetimepicker-input" data-target="#date_of_em" placeholder="Select Date...">
+                                                <div class="input-group-append" data-target="#date_of_em" data-toggle="datetimepicker">
+                                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                </div>
+                                            </div>
+                                            {{-- <input autocomplete="off" name="emp_date" value="{{ old('emp_date') }}" type="text" class="form-control date-pick" placeholder="Select Date..."> --}}
+                                             {{-- @error('emp_date')
                                                 <span class="text-danger">{{ $message }}</span>
-                                            @enderror
+                                            @enderror --}}
 
                                         </div>
                                     </div>
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="password">Password: </label>
+                                            <label for="password">Password: <span class="text-danger">*</span></label>
                                             <input id="password" type="password" name="password" class="form-control"  >
                                              @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
@@ -124,7 +141,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="gender">Gender: <span class="text-danger">*</span></label>
-                                            <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                            <select class="select form-control" id="gender" name="gender"  data-fouc data-placeholder="Choose..">
                                                 <option value=""></option>
                                                 <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
                                                 <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>

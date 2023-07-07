@@ -117,7 +117,7 @@ class Qs
     public static function getTeamPA()
     {
         // return ['admin'];
-        return ['admin'];
+        return ['admin', 'parent'];
 
     }
     public static function getTeamPAT()

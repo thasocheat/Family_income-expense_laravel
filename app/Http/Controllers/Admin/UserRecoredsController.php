@@ -41,6 +41,7 @@ class UserRecoredsController extends Controller
 
 
         return view('admin.users.user_list', $d);
+
     }
 
     public function reset_pass($id)
@@ -82,13 +83,17 @@ class UserRecoredsController extends Controller
         $data['user_type'] = $user_type;
         $data['photo'] = Qs::getDefaultUserImage();
         $data['code'] = strtoupper(Str::random(10));
+        // $data['dob'] = ;
 
 
         $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
 
-        $staff_id = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
-        $data['username'] = $uname = ($user_is_teamPA) ? $req->username : $staff_id;
+        // $staff_id = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
+        $staff_id = strtoupper(Str::random(10));
+        // $data['username'] = $uname = ($user_is_teamPA) ? $req->username : $staff_id;
+        $data['username'] = $uname = ($user_is_teamPA) ? $req->username : $req->username;
+
 
         $pass = $req->password ?: $user_type;
         $data['password'] = Hash::make($pass);
@@ -96,11 +101,11 @@ class UserRecoredsController extends Controller
         try {
             // File upload logic here
             if($req->hasFile('photo')) {
-                $photo = $req->file('photo');
+                $photo = $req->file('photo'); // Validation photo field
                 $f = Qs::getFileMetaData($photo);
-                $f['name'] = $data['code'] .'.'. $f['ext'];
-                $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
-                $data['photo'] = 'storage/' . $f['path'];
+                $f['name'] = $data['code'] .'.'. $f['ext']; // PhotoName.jpg or .png
+                $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public'); // Photo directory
+                $data['photo'] = 'storage/' . $f['path']; // Directory to save into database
 
             }
             // else {
@@ -303,7 +308,7 @@ class UserRecoredsController extends Controller
             'alert-type' => 'success'
         );
 
-        // return Redirect()->back()->with($notification);
-        return dd($old_image);
+        return Redirect()->back()->with($notification);
+        // return dd($old_image);
     }
 }
