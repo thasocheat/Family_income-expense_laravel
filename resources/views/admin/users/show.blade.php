@@ -8,7 +8,18 @@
                 <div class="col-md-3 text-center">
                     <div class="card">
                         <div class="card-body">
-                            <img style="width: 90%; height:90%" src="{{ $user->photo }}" alt="photo" class="rounded-circle">
+                            @if (!empty($user->photo))
+                            @php
+                                $imageUrl = asset('storage/uploads/' . $userType . '/' . basename($imageName));
+                                $relativeUrl = str_replace(url('/'), '', $imageUrl);
+                            @endphp
+                            <img id="showImage" src="{{ $relativeUrl }}" width="100" height="auto" alt="User Photo">
+                            @else
+
+                                <img id="showImage" src="{{ asset('storage/uploads/default-photo.png') }}" width="100" height="auto" alt="Default Photo">
+
+                            @endif
+                            {{-- <img style="width: 90%; height:90%" src="{{ $user->photo }}" alt="photo" class="rounded-circle"> --}}
                             <br>
                             <h3 class="mt-3">{{ $user->name }}</h3>
                         </div>
@@ -60,7 +71,7 @@
                                         @endif
                                         <tr>
                                             <td class="font-weight-bold">Birthday</td>
-                                            <td>{{$user->dob }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($user->dob)->format('m/d/Y') }}</td>
                                         </tr>
                                         {{-- @if($user->bg_id)
                                             <tr>

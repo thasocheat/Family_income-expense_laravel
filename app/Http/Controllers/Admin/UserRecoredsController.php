@@ -35,6 +35,8 @@ class UserRecoredsController extends Controller
         $ut = $this->user->getAllTypes();
 
         $ut2 = $ut->where('level', '>=', 1);
+        
+       
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
         $d['users'] = $this->user->getPTAUsers();
@@ -154,7 +156,15 @@ class UserRecoredsController extends Controller
 
         $data['user'] = $this->user->find($user_id);
 
+        $user= $this->user->find($user_id);
+        $userType = $user->user_type;
+        $imageName = $user->photo;
 
+        $data = [
+            'user' => $user,
+            'userType' => $userType,
+            'imageName' => $imageName,
+        ];
 
         /* Prevent Other Students from viewing Profile of others*/
         if(Auth::user()->id != $user_id && !Qs::userIsTeamPAT() && !Qs::userIsMyChild(Auth::user()->id, $user_id)){
@@ -223,14 +233,18 @@ class UserRecoredsController extends Controller
         // }
 
         if($user_is_staff && !$user_is_teamPA){
-            $data['username'] = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
+        $data['username'] = $uname = ($user_is_teamPA) ? $user->username : $user->username;
+
+            // $data['username'] = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
             // $data['username'] = Qs::getAppCode();
 
         }
         else {
             // $data['username'] = $user->username;
             if (!$user) {
-                $data['username'] = $user->username; // Retain the old username value
+                // $data['username'] = $user->username; // Retain the old username value
+            $data['username'] = $uname = ($user_is_teamPA) ? $user->username : $user->username;
+
             }
         }
 

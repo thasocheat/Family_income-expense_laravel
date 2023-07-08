@@ -48,7 +48,7 @@
 
         {{-- User --}}
 
-        @if(Qs::userIsTeamPA())
+        @if(Qs::userIsTeamPAT())
         <li class="nav-item">
             {{-- <a href="{{ route('users.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['users.index', 'users.show', 'users.edit']) ? 'active' : '' }}">
                 <i class="icon-users4"></i> <span> Users</span>

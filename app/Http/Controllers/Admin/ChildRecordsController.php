@@ -68,7 +68,7 @@ class ChildRecordsController extends Controller
 
         $data['sr'] = $this->child->getRecord(['id' => $sr_id])->first();
 
-        /* Prevent Other Students/Parents from viewing Profile of others */
+        /* Prevent Other Childs/Parents from viewing Profile of others */
         if(Auth::user()->id != $data['sr']->user_id && !Qs::userIsTeamPAT() && !Qs::userIsMyChild($data['sr']->user_id, Auth::user()->id)){
             return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
         }
