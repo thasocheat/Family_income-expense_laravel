@@ -81,12 +81,13 @@
         @endif
 
         {{-- Child --}}
-        @if(Qs::userIsTeamPAT())
+        @if(Qs::userIsTeamPA())
 
             <li class="nav-item">
 
 
-                <a href="{{ route('childs.create') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['childs.create', 'childs.show', 'childs.edit']) ? 'active' : '' }}">
+                {{-- <a href="{{ route('childs.create') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['childs.create', 'childs.show', 'childs.edit']) ? 'active' : '' }}"> --}}
+                  <a href="#" class="nav-link">
 
                 <i class="nav-icon fas fa-copy"></i>
                 <p>

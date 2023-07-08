@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Qs;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepo;
@@ -18,8 +19,8 @@ class ChildRecordsController extends Controller
 
     public function __construct(UserRepo $user, ChildRepo $child)
     {
-        $this->middleware('teamPAT', ['only' => ['edit','update', 'reset_pass', 'create', 'store'] ]);
-        $this->middleware('admin', ['only' => ['edit','update', 'reset_pass', 'create', 'store','destroy',] ]);
+        $this->middleware('teamPA', ['only' => ['edit','update', 'reset_pass', 'store'] ]);
+        $this->middleware('admin', ['only' => ['edit','update', 'reset_pass', 'store','destroy',] ]);
 
 
             $this->user = $user;
@@ -28,7 +29,18 @@ class ChildRecordsController extends Controller
 
     public function create()
     {
-        $data['parents'] = $this->user->getUserByType('parent');
+
+        $loggedInUser = Auth::user(); // Hold the value from the user model and pass to $loggedInUser
+
+
+        // Check if the user is admin and can choose all the parent user
+        if ($loggedInUser->user_type === 'admin') {
+            $data['parents'] = $this->user->getUserByType('parent');
+            
+        } else {
+            // If the user is parent then can choose only him self
+            $data['parents'] = collect([$loggedInUser]);
+        }
         return view('admin.childs.add', $data);
     }
 

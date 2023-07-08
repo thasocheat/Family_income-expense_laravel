@@ -66,10 +66,14 @@ class Qs
                 </div>';
     }
 
-
+    
     // If user is admin function
     public static function userIsAdmin(){
         return Auth::user()->user_type == 'admin';
+    }
+
+    public static function userIsParent(){
+        return Auth::user()->user_type == 'parent';
     }
 
 
@@ -122,7 +126,7 @@ class Qs
     }
     public static function getTeamPAT()
     {
-        return ['admin', 'parent'];
+        return ['admin'];
     }
     public static function userIsTeamPA()
     {

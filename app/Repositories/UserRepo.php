@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\UserType;
 use App\Models\StaffRecord;
+use Illuminate\Support\Facades\Auth;
 
 
 class UserRepo{
@@ -55,6 +56,22 @@ class UserRepo{
     public function getAll(){
         return User::orderBy('name','asc')->get();
     }
+
+    // Get the parent by login
+    public function getUserByTypeAndLoggedInParent($type)
+{
+    $loggedInUser = Auth::user();
+
+    if ($loggedInUser->type === 'admin') {
+
+        return $this->getUserByType($type);
+    }
+
+    // Assuming the 'my_parent_id' field represents the relationship between parent and child
+    // return $this->getUserByType($type)->where('id', $loggedInUser->my_parent_id)->get();
+    return $this->getUserByType($type)->where('id', $loggedInUser)->get();
+
+}
 
 
      // Get the user to be show on table

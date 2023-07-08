@@ -84,6 +84,22 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+        // Route::get('/view/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
+
+        // Route::get('/create/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'create'])->name('childs.create');
+
+
+        // Route::put('/store/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'store'])->name('childs.store');
+
+
+
+    });
+
+    Route::group(['prefix' => 'parent'], function(){
+        // User route
+
+
+
         Route::get('/view/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
 
         Route::get('/create/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'create'])->name('childs.create');
