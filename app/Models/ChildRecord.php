@@ -24,7 +24,7 @@ class ChildRecord extends Model
 
    public function my_parent()
     {
-        return $this->belongsTo(ParentUser::class, 'my_parent_id');
+        return $this->belongsTo(User::class, 'my_parent_id');
     }
 
     // Add the deleting event to handle cascading delete
