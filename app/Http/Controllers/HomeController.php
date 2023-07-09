@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Qs;
+use App\Models\Income;
 use Illuminate\Http\Request;
+use App\Models\IncomeCategory;
 use App\Repositories\UserRepo;
 
 class HomeController extends Controller
@@ -33,7 +35,21 @@ class HomeController extends Controller
     public function index()
     {
         // return view('pages.dashboard');
-        return redirect()->route('dashboard');
+
+        // check the user login
+        if(auth()->user()->user_type === 'admin'){
+            // If admin user then show admin dashboard
+            return redirect()->route('dashboard');
+
+        }elseif(auth()->user()->user_type === 'parent'){
+
+            return redirect()->route('parent_dashboard');
+
+        }elseif(auth()->user()->user_type === 'child'){
+
+            return redirect()->route('child_dashboard');
+
+        }
 
     }
 
@@ -42,12 +58,21 @@ class HomeController extends Controller
         /* Get all the user with user type and diplay count
          dashboard page
         */
-        $count=[];
+        $data=[];
         if(Qs::userIsCount()){
-            $count['users'] = $this->user->getAll();
+            $data['users'] = $this->user->getAll();
+
         }
-        return view('pages.dashboard',$count);
+        // if (auth()->user()->user_type === 'admin') {
+            $data['incomeCategories'] = IncomeCategory::all();
+            $data['incomes'] = Income::all();
+        // }
+        return view('pages.dashboard',$data);
 
     }
+
+
+
+
 
 }

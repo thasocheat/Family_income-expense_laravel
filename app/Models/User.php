@@ -3,10 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -46,7 +48,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(ChildRecord::class);
     }
-
+    // Relationship to parent user for the child user
+    public function children()
+    {
+        return $this->hasMany(ChildRecord::class, 'my_parent_id');
+    }
 
     public function staff()
     {
@@ -57,6 +63,20 @@ class User extends Authenticatable
     {
         return $query->where('email', $email)->first();
     }
+
+
+    // Income Category
+    public function incomeCategories()
+    {
+        return $this->hasMany(IncomeCategory::class, 'created_by_id');
+    }
+
+    // Expense Category
+    public function expenseCategories()
+    {
+        return $this->hasMany(ExpenseCategory::class, 'created_by_id');
+    }
+
 
     /**
      * The attributes that should be cast.

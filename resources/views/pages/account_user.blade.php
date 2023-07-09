@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('page_title', 'User Account')
 
 @section('content')
 
@@ -100,9 +101,9 @@
                                                     <input  accept="image/*" type="file" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
                                                 </div>
                                                 <div class="form-group">
-                                           
+
                                                     <img id="showImage" src="{{ (!empty($pro_edit->photo)) ? Auth::user()->photo : url('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
-                                                   
+
                                                 </div>
                                             </div>
 
@@ -154,7 +155,7 @@
                     </div>
                 </div>
             </div>
-            
+
             @if(Qs::userIsAP())
 
             <div class="card">
@@ -227,13 +228,13 @@
     function previewImage(event) {
         var input = event.target;
         var reader = new FileReader();
-    
+
         reader.onload = function(){
             var dataURL = reader.result;
             var image = document.getElementById('showImage');
             image.src = dataURL;
         };
-    
+
         reader.readAsDataURL(input.files[0]);
     }
     </script>

@@ -42,7 +42,7 @@
         
         <a class="nav-link" data-toggle="dropdown" href="#">       
 
-          <img class="img-circle" width="30" height="auto" src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}">
+          <img class="img-circle" width="30" height="auto" src="{{ asset(Auth::user()->photo) }}" alt="{{ Auth::user()->name }}">
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 

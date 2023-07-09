@@ -2,7 +2,7 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img class="img-circle elevation-2" src="{{ Auth::user()->photo }}" alt="{{ Auth::user()->name }}">
+        <img class="img-circle elevation-2" src="{{ asset(Auth::user()->photo) }}" alt="{{ Auth::user()->name }}">
       </div>
       <div class="info">
         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -26,16 +26,71 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
+{{-- userIsAdmin
+userIsParent
+userIsChild --}}
+        {{-- @if(Qs::userIsAdmin())
+            <li class="nav-item menu-open">
+                <a href="{{ route('dashboard') }}" class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
 
-        <li class="nav-item menu-open">
-          <a href="{{ route('dashboard') }}" class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}">
-            <i class="nav-icon fas fa-tachometer-alt"></i>
-            <p>
-              Dashboard
-            </p>
-          </a>
+            </li>
+        @elseif(Qs::userIsParent())
+            <li class="nav-item menu-open">
+                <a href="{{ route('parent_dashboard') }}" class="nav-link {{ (Route::is('parent_dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
 
-        </li>
+            </li>
+        @elseif(Qs::userIsChild())
+            <li class="nav-item menu-open">
+                <a href="{{ route('child_dashboard') }}" class="nav-link {{ (Route::is('child_dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
+
+            </li>
+        @endif --}}
+
+        @if(auth()->user()->user_type === 'admin')
+            <li class="nav-item menu-open">
+                <a href="{{ route('dashboard') }}" class="nav-link {{ (Route::is('dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
+            </li>
+        @elseif(auth()->user()->user_type === 'parent')
+            <li class="nav-item menu-open">
+                <a href="{{ route('parent_dashboard') }}" class="nav-link {{ (Route::is('parent_dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
+            </li>
+        @elseif(auth()->user()->user_type === 'child')
+            <li class="nav-item menu-open">
+                <a href="{{ route('child_dashboard') }}" class="nav-link {{ (Route::is('child_dashboard')) ? 'active' : '' }}">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                </p>
+                </a>
+            </li>
+        @endif
+
+
 
         <li class="nav-item">
           <a href="{{ route('account_user') }}" class="nav-link {{ (Route::is('account_user')) ? 'active' : '' }}">
@@ -87,43 +142,36 @@
 
 
                 {{-- <a href="{{ route('childs.create') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['childs.create', 'childs.show', 'childs.edit']) ? 'active' : '' }}"> --}}
-                  <a href="#" class="nav-link">
+                <a href="#" class="nav-link">
 
-                <i class="nav-icon fas fa-copy"></i>
-                <p>
-                Child
+                    <i class="nav-icon fas fa-copy"></i>
+                    <p>
+                    Child
 
-                 <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-              <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{ route('childs.create') }}" class="nav-link {{ (Route::is('childs.create')) ? 'active' : '' }}">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Create Child</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/charts/flot.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>View Child</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/charts/inline.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Inline</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/charts/uplot.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>uPlot</p>
-              </a>
-            </li>
-          </ul>
+                    <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                    <a href="{{ route('childs.create') }}" class="nav-link {{ (Route::is('childs.create')) ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create Child</p>
+                    </a>
+                    </li>
+                    <li class="nav-item">
+                        {{-- <a href="{{$url}}" class="nav-link"> --}}
+
+                    <a href="{{ route('my_children') }}" class="nav-link {{ (Route::is('my_children')) ? 'active' : '' }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>View My Child</p>
+                    </a>
+
+                    </li>
+
+                </ul>
 
             </li>
+
         @endif
 
 
@@ -147,26 +195,21 @@
             <li class="nav-item">
               <a href="pages/charts/flot.html" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Flot</p>
+                <p>Create Income</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="pages/charts/inline.html" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
-                <p>Inline</p>
+                <p>Add Income Category</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="pages/charts/uplot.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>uPlot</p>
-              </a>
-            </li>
+
           </ul>
         </li>
 
          {{-- Expense --}}
-        <li class="nav-item">
+         <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
@@ -184,21 +227,70 @@
               <li class="nav-item">
                 <a href="pages/charts/flot.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Flot</p>
+                  <p>Create Expense</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="pages/charts/inline.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Inline</p>
+                  <p>Add Expense Category</p>
+                </a>
+              </li>
+
+            </ul>
+        </li>
+
+        {{-- Income Category --}}
+        <li class="nav-item">
+            <a href="{{ route('in_category.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['in_category.index','in_category.create']) ? 'active' : '' }}" class="nav-link">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Income Category
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('in_category.index')}}" class="nav-link {{ (Route::is('in_category.index')) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Category</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/charts/uplot.html" class="nav-link">
+                <a href="{{route('in_category.create')}}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>uPlot</p>
+                  <p>Create Category</p>
                 </a>
               </li>
+
+
+            </ul>
+          </li>
+
+         {{-- Expense Category --}}
+        <li class="nav-item">
+            <a href="{{ route('ex_category.index') }}" class="nav-link {{ in_array(Route::currentRouteName(), ['ex_category.index','ex_category.create']) ? 'active' : '' }}">
+              <i class="nav-icon fas fa-chart-pie"></i>
+              <p>
+                Expense Category
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('ex_category.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Category</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('ex_category.create') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Create Category</p>
+                </a>
+              </li>
+             
+
             </ul>
         </li>
 
@@ -208,7 +300,7 @@
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-tree"></i>
             <p>
-              UI Elements
+              Report
               <i class="fas fa-angle-left right"></i>
             </p>
           </a>

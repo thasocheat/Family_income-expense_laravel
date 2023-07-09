@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\Qs;
 use Illuminate\Http\Request;
 use App\Models\IncomeCategory;
+use App\Models\ExpenseCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreIncomeCategory;
-use App\Http\Requests\UpdateIncomeCategory;
+use App\Http\Requests\StoreExpenseCategory;
+use App\Http\Requests\UpdateExpenseCategory;
 
-class IncomesCategoryController extends Controller
+class ExpenseCategoryController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -22,13 +22,13 @@ class IncomesCategoryController extends Controller
 
         // Check if user is admin then he can view all category
         if (auth()->user()->user_type === 'admin') {
-            $data['in_category'] = IncomeCategory::all();
+            $data['ex_category'] = ExpenseCategory::all();
         } else {
             // But if parent and child user then they can see only they category
-            $data['in_category'] = auth()->user()->incomeCategories;
+            $data['ex_category'] = auth()->user()->expenseCategories;
         }
 
-        return view('admin.incomeCategories.index', $data);
+        return view('admin.expenseCategories.index', $data);
     }
 
     /**
@@ -36,17 +36,17 @@ class IncomesCategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.incomeCategories.add');
+        return view('admin.expenseCategories.add');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreIncomeCategory $req)
+    public function store(StoreExpenseCategory $req)
     {
-        // $data['incomeCategory'] = IncomeCategory::create($req->all());
+        // $data['ExpenseCategory'] = ExpenseCategory::create($req->all());
         // Create the income category and associate it with the authenticated user
-        $data['incomeCategory'] = auth()->user()->incomeCategories()->create($req->all());
+        $data['expenseCategory'] = auth()->user()->expenseCategories()->create($req->all());
 
         $notification = array(
             'message' => 'Category Save Successfully',
@@ -55,7 +55,7 @@ class IncomesCategoryController extends Controller
 
         // return Redirect()->back()->with($notification);
 
-        return redirect()->route('in_category.create',$data)->with($notification);
+        return redirect()->route('ex_category.create',$data)->with($notification);
     }
 
     /**
@@ -73,20 +73,20 @@ class IncomesCategoryController extends Controller
     {
         $decodeCateId = Qs::decodeHash($category);
 
-        $category = IncomeCategory::findOrFail($decodeCateId);
+        $category = ExpenseCategory::findOrFail($decodeCateId);
 
 
-        return view('admin.incomeCategories.edit', compact('category'));
+        return view('admin.expenseCategories.edit', compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateIncomeCategory $req, $category_id)
+    public function update(UpdateExpenseCategory $req, $category_id)
     {
         $decodeCateId = Qs::decodeHash($category_id);
 
-        $category = IncomeCategory::findOrFail($decodeCateId);
+        $category = ExpenseCategory::findOrFail($decodeCateId);
 
         $category->update($req->all());
 
@@ -96,7 +96,7 @@ class IncomesCategoryController extends Controller
         );
 
 
-        return redirect()->route('in_category.edit', ['category_id' => Qs::hash($category->id)])->with($notification);
+        return redirect()->route('ex_category.edit', ['category_id' => Qs::hash($category->id)])->with($notification);
     }
 
     /**
@@ -106,7 +106,7 @@ class IncomesCategoryController extends Controller
     {
         $decodeCateId = Qs::decodeHash($category_id);
 
-        $category = IncomeCategory::findOrFail($decodeCateId);
+        $category = ExpenseCategory::findOrFail($decodeCateId);
 
         // Check if the user that create the income category data or is admin then
         if(Auth::user()->user_type === 'admin' || $category->create_by_id === Auth::id()){
@@ -118,7 +118,7 @@ class IncomesCategoryController extends Controller
             );
     
     
-            return redirect()->route('in_category.index')->with($notification);
+            return redirect()->route('ex_category.index')->with($notification);
         } else{
             abort(404, 'Unauthorized');
         }

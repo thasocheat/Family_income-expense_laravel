@@ -81,6 +81,7 @@ class UserRepo{
          return User::orderBy('name', 'asc')->get();
 
      }
+     
 
     //  Find user type by id
     public function findType($id)

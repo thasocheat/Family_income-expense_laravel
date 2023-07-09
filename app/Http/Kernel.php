@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Custom\Admin::class,
         'teamPA' => \App\Http\Middleware\Custom\TeamPA::class,
         'teamPAT' => \App\Http\Middleware\Custom\TeamPAT::class,
+        'my_child' => \App\Http\Middleware\Custom\MyChild::class,
     ];
 }

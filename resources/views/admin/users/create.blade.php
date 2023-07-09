@@ -161,7 +161,7 @@
                                     {{--PASSPORT--}}
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="d-block">Upload Passport Photo:</label>
+                                            <label class="d-block">Upload User Photo:</label>
                                             <input value="{{ old('photo') }}" accept="image/*" type="file" id="photo" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
                                             <span class="form-text text-muted">Accepted Images: jpeg, png. Max file size 2Mb</span>
                                             @error('photo')
@@ -196,28 +196,28 @@
 </div>
 
 <script type="text/javascript">
-// $(document).ready(function(){
-//     $('#photo').change(function(){
-//         var reader = new FileReader();
-//         reader.onload = function(e){
-//             $('#showImage').attr('src',e.target.result);
-//         }
-//         reader.readAsDataURL(e.target.files['0']);
-//     });
-// });
-function previewImage(event) {
-    var input = event.target;
-    var reader = new FileReader();
-
-    reader.onload = function(){
-        var dataURL = reader.result;
-        var image = document.getElementById('showImage');
-        image.src = dataURL;
-    };
-
-    reader.readAsDataURL(input.files[0]);
-}
-</script>
+    // $(document).ready(function(){
+    //     $('#photo').change(function(){
+    //         var reader = new FileReader();
+    //         reader.onload = function(e){
+    //             $('#showImage').attr('src',e.target.result);
+    //         }
+    //         reader.readAsDataURL(e.target.files['0']);
+    //     });
+    // });
+    function previewImage(event) {
+        var input = event.target;
+        var reader = new FileReader();
+    
+        reader.onload = function(){
+            var dataURL = reader.result;
+            var image = document.getElementById('showImage');
+            image.src = dataURL;
+        };
+    
+        reader.readAsDataURL(input.files[0]);
+    }
+    </script>
 
     {{--Student List Ends--}}
 

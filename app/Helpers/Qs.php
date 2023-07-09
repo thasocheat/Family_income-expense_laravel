@@ -5,6 +5,7 @@ namespace App\Helpers;
 use Hashids\Hashids;
 use App\Models\Setting;
 use App\Models\ChildRecord;
+use App\Models\IncomeCategory;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -55,6 +56,17 @@ class Qs
         return $remove ? array_values(array_diff($data, $remove)) : $data;
     }
 
+
+    // Count category
+    // public static function categoryIsCount(){
+    //     return in_array(IncomeCategory::all());
+    // }
+
+
+
+
+
+
     // Get the panel
     public static function getPanelOptions()
     {
@@ -66,7 +78,7 @@ class Qs
                 </div>';
     }
 
-    
+
     // If user is admin function
     public static function userIsAdmin(){
         return Auth::user()->user_type == 'admin';
@@ -74,6 +86,10 @@ class Qs
 
     public static function userIsParent(){
         return Auth::user()->user_type == 'parent';
+    }
+
+    public static function userIsChild(){
+        return Auth::user()->user_type == 'child';
     }
 
 
@@ -87,6 +103,10 @@ class Qs
         return ['admin','parent'];
     }
 
+    public static function findMyChildren($parent_id)
+    {
+        return ChildRecord::where('my_parent_id', $parent_id)->with(['user'])->get();
+    }
     // Get file meta data
     public static function getFileMetaData($file){
         $dataFile['ext'] = $file->getClientOriginalExtension();
@@ -121,7 +141,7 @@ class Qs
     public static function getTeamPA()
     {
         // return ['admin'];
-        return ['admin', 'parent'];
+        return ['admin','parent'];
 
     }
     public static function getTeamPAT()

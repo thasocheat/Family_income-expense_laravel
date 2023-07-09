@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IncomeCategory extends Model
+class ExpenseCategory extends Model
 {
     use HasFactory;
 
@@ -26,5 +26,4 @@ class IncomeCategory extends Model
     {
         return $this->belongsTo(User::class, 'created_by_id');
     }
-
 }

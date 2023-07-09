@@ -22,10 +22,20 @@ class ChildRecord extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function my_parent()
+   public function my_parent()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(ParentUser::class, 'my_parent_id');
     }
+
+    // Add the deleting event to handle cascading delete
+    // protected static function boot()
+    // {
+    //     parent::boot();
+
+    //     static::deleting(function ($childUser) {
+    //         $childUser->my_parent()->delete();
+    //     });
+    // }
 
     public function my_income()
     {

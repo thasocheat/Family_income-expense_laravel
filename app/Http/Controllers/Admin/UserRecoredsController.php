@@ -4,16 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Qs;
 use App\Models\User;
+use App\Models\ChildRecord;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepo;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserRecoredsController extends Controller
 {
@@ -35,8 +36,8 @@ class UserRecoredsController extends Controller
         $ut = $this->user->getAllTypes();
 
         $ut2 = $ut->where('level', '>=', 1);
-        
-       
+
+
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
         $d['users'] = $this->user->getPTAUsers();
@@ -50,12 +51,25 @@ class UserRecoredsController extends Controller
     {
         // Redirect if Making Changes to Head of Super Admins
         if(Qs::headA($id)){
-            return back()->with('flash_danger', __('msg.denied'));
+            $notification = array(
+                'message' => 'Access denied!',
+                'alert-type' => 'warning'
+            );
+
+            return Redirect()->back()->with($notification);
+            // return back()->with('flash_danger', __('msg.denied'));
         }
 
         $data['password'] = Hash::make('user');
         $this->user->update($id, $data);
-        return back()->with('flash_success', __('msg.pu_reset'));
+
+        $notification = array(
+            'message' => 'Access denied!',
+            'alert-type' => 'success'
+        );
+
+        return Redirect()->back()->with($notification);
+        // return back()->with('flash_success', __('msg.pu_reset'));
     }
 
     /**
@@ -143,7 +157,7 @@ class UserRecoredsController extends Controller
         );
 
         // return back()->with('flash_success', 'Data save successfully.');
-        return back()->with($notification);
+        return Redirect()->back()->with($notification);
     }
 
     /**
@@ -152,6 +166,7 @@ class UserRecoredsController extends Controller
     public function show($user_id)
     {
         $user_id = Qs::decodeHash($user_id);
+
         if(!$user_id){return back();}
 
         $data['user'] = $this->user->find($user_id);
@@ -168,7 +183,13 @@ class UserRecoredsController extends Controller
 
         /* Prevent Other Students from viewing Profile of others*/
         if(Auth::user()->id != $user_id && !Qs::userIsTeamPAT() && !Qs::userIsMyChild(Auth::user()->id, $user_id)){
-            return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
+            $notification = array(
+                'message' => 'User Store Successfully',
+                'alert-type' => 'success'
+            );
+
+            return back()->with($notification);
+            // return redirect(route('dashboard'))->with('pop_error', __('msg.denied'));
         }
 
         return view('admin.users.show', $data);
@@ -192,6 +213,7 @@ class UserRecoredsController extends Controller
             'userType' => $userType,
             'imageName' => $imageName,
         ];
+
         return view('admin.users.edit', $data);
     }
 
@@ -281,41 +303,22 @@ class UserRecoredsController extends Controller
     {
         $user = User::find($id);
 
-
-        // $id = Qs::decodeHash($id);
-
-        // $user_id = intval($id);
-
-        // // Redirect if Making Changes to Head of Super Admins
-        // if (Qs::headA($user_id)) {
-        //     return Qs::json(__('msg.denied'), false);
-        // }
-
-        // $user = $this->user->find($user_id);
-
-        // if (!$user) {
-        //     $notification = [
-        //         'message' => 'User not found',
-        //         'alert-type' => 'error'
-        //     ];
-        //     return dd($user_id);
-        // }
-
-
-
-        // $path = Qs::getUploadPath($user->user_type).$user;
-        // Storage::exists($path) ? Storage::deleteDirectory($path) : true;
         $old_image = $user->photo;
-        // Storage::exists($old_image) ? Storage::delete($old_image) : true;
-        // Delete the image file
-        if (Storage::exists($old_image)) {
-            // Storage::delete($old_image);
-            Storage::disk('local')->delete($old_image);
+
+       // Extract the relative path from the storage link
+        $relativePath = str_replace('storage/', '', $old_image);
+
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
         }
 
+        if ($user) {
+            $user->child_record()->delete(); // Delete the related child records
+            $user->forceDelete(); // Delete the user record
+        }
 
-        // $this->user->delete($user->id);
-        User::find($id)->delete();
+        // // $this->user->delete($user->id);
+        // $user->delete();
 
         $notification = array(
             'message' => 'User Delete Successfully',
@@ -324,5 +327,6 @@ class UserRecoredsController extends Controller
 
         return Redirect()->back()->with($notification);
         // return dd($old_image);
+
     }
 }

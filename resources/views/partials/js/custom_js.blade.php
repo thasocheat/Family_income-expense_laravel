@@ -136,7 +136,10 @@
 
     $('form#ajax-reg').on('submit', function(ev){
         ev.preventDefault();
-        submitForm($(this), 'store');
+        submitForm($(this), 'store');        
+        // var div = $(this).data('reload');
+        // div ? reloadDiv(div) : '';
+
         $('#ajax-reg-t-0').get(0).click();
     });
 

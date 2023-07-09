@@ -29,8 +29,10 @@ Route::group(['middleware' => 'auth'], function () {
     // Home route
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-    // Dashboard route
-    Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+    // Admin dashboard route
+    // Route::get('/admin/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+
+
 
     // Account profile route group
 
@@ -60,12 +62,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'Admin'], function(){
         // User route
 
+        Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+
+
         Route::get('/view/users/', [App\Http\Controllers\Admin\UserRecoredsController::class, 'index'])->name('users.index');
-        Route::get('/show/uers/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'show'])->name('users.show');
+        Route::get('/show/users/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'show'])->name('users.show');
 
 
         Route::get('/create/users', [App\Http\Controllers\Admin\UserRecoredsController::class, 'create'])->name('users.create');
-        Route::get('/edit/uers/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'edit'])->name('users.edit');
+        Route::get('/edit/users/{user_id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'edit'])->name('users.edit');
 
 
 
@@ -84,12 +89,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
-        // Route::get('/view/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
-
-        // Route::get('/create/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'create'])->name('childs.create');
 
 
-        // Route::put('/store/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'store'])->name('childs.store');
 
 
 
@@ -98,9 +99,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'parent'], function(){
         // User route
 
+        // Parent dashboard route
+        Route::get('/dashboard', [App\Http\Controllers\Dashboard\ParentController::class, 'parent_dashboard'])->name('parent_dashboard');
 
 
-        Route::get('/view/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
+        Route::get('/view/childs/{cr_id}', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
+        Route::get('/edit/childs/{cr_id}', [App\Http\Controllers\Admin\ChildRecordsController::class, 'edit'])->name('childs.edit');
+
 
         Route::get('/create/childs', [App\Http\Controllers\Admin\ChildRecordsController::class, 'create'])->name('childs.create');
 
@@ -111,9 +116,18 @@ Route::group(['middleware' => 'auth'], function () {
 
     });
 
+    Route::group(['prefix' => 'child'], function(){
+        // User route
+
+
+        // Child dashboard route
+        Route::get('/dashboard', [App\Http\Controllers\Dashboard\ChildController::class, 'child_dashboard'])->name('child_dashboard');
 
 
 
+
+
+    });
 
 
 
@@ -121,6 +135,46 @@ Route::group(['middleware' => 'auth'], function () {
     /*************** Users *****************/
     Route::group(['prefix' => 'users'], function(){
         Route::get('reset_pass/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'reset_pass'])->name('users.reset_pass');
+
+
+         // Income Category route
+
+         Route::get('/view/incomes_category', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'index'])->name('in_category.index');
+
+         Route::get('/create/incomes_category', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'create'])->name('in_category.create');
+
+         Route::get('/edit/incomes_category/{category}', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'edit'])->name('in_category.edit');
+
+         Route::put('/update/incomes_category/{category_id}', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'update'])->name('in_category.update');
+
+         Route::get('/destroy/incomes_category/{category_id}', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'destroy'])->name('in_category.destroy');
+
+         Route::post('/store/incomes_category', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'store'])->name('in_category.store');
+
+
+         // Expense Category route
+
+         Route::get('/view/expense_category', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'index'])->name('ex_category.index');
+
+         Route::get('/create/expense_category', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'create'])->name('ex_category.create');
+
+         Route::post('/store/expense_category', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'store'])->name('ex_category.store');
+
+
+         Route::get('/edit/expense_category/{category}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'edit'])->name('ex_category.edit');
+
+         Route::put('/update/expense_category/{category_id}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'update'])->name('ex_category.update');
+
+         Route::get('/destroy/expense_category/{category_id}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'destroy'])->name('ex_category.destroy');
+         
+
+
     });
+
+});
+
+Route::group(['namespace' => 'MyChild','middleware' => 'my_child',], function(){
+
+    Route::get('/my_children', 'MyChildController@children')->name('my_children');
 
 });

@@ -48,6 +48,8 @@
 <script src="{{asset('backends')}}/js/validate.min.js"></script>
 
 
+
+
 <script>
      //Date picker
      $('#date_of_birth').datetimepicker({
