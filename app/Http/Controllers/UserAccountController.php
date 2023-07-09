@@ -51,9 +51,10 @@ class UserAccountController extends Controller
             //
             $data['password'] = Hash::make($new_pass);
             $this->user->update($user_id, $data);
-            return back()->with('flash_success',__('msg.p_reset'));
+
+            return back()->with('pop_success',__('msg.p_reset'));
         }
-        return back()->with('flash_danger',__('msg.p_reset_fail'));
+        return back()->with('pop_error',__('msg.p_reset_fail'));
 
 
     }
@@ -68,7 +69,7 @@ class UserAccountController extends Controller
 
         // Check
         if(!$user->username && !$req->username && $req->email){
-            return back()->with('pop_error',__('msg.user_invalid'));
+            return back()->with('pop_error',__('Please! put your username and email.'));
         }
 
         $user_type = $user->user_type;

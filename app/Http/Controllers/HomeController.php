@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Qs;
+use App\Models\ExpenseCategory;
 use App\Models\Income;
 use Illuminate\Http\Request;
 use App\Models\IncomeCategory;
@@ -65,6 +66,8 @@ class HomeController extends Controller
         }
         // if (auth()->user()->user_type === 'admin') {
             $data['incomeCategories'] = IncomeCategory::all();
+            $data['expenseCategories'] = ExpenseCategory::all();
+
             $data['incomes'] = Income::all();
         // }
         return view('pages.dashboard',$data);

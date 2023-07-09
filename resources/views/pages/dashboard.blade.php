@@ -50,7 +50,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{ $users->count() }}</h3>
+                <h3>@if(!$users) {{0}} @else {{ $users->count() }} @endif</h3>
 
                 <p>Total Users</p>
               </div>
@@ -96,7 +96,7 @@
               <!-- small box -->
               <div class="small-box bg-info">
                 <div class="inner">
-                  <h3>{{ $incomeCategories->count() }}</h3>
+                  <h3>@if(!$incomeCategories) {{0}} @else {{ $incomeCategories->count() }} @endif</h3>
 
                   <p>Total Income Category</p>
                 </div>
@@ -110,7 +110,7 @@
               <!-- small box -->
               <div class="small-box bg-success">
                 <div class="inner">
-                  <h3>0</h3>
+                  <h3>@if(!$expenseCategories) {{0}} @else {{ $expenseCategories->count() }} @endif</h3>
 
                   <p>Total Expense Category</p>
                 </div>

@@ -36,22 +36,36 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{ $incomeCategories->count() }}</h3>
+                <h3>@if(!$incomeCategories) {{0}} @else {{ $incomeCategories->count() }} @endif</h3>
 
-                <p>Total Category</p>
+                <p>Total Income Category</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>
               </div>
             </div>
           </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>@if(!$expenseCategories) {{0}} @else {{$expenseCategories->count()}} @endif</h3>
+
+                <p>Total Expense Category</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+            </div>
+          </div>
+          
           <!-- ./col -->
-          {{-- <div class="col-lg-3 col-6">
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
 
-                <h3>{{ $incomes->count() }}</h3>
+                <h3> @if(!$incomes) {{0}} @else {{$incomes->count()}} @endif</h3>
 
                 <p>Total Income</p>
               </div>
@@ -59,13 +73,13 @@
                 <i class="ion ion-person"></i>
               </div>
             </div>
-          </div> --}}
+          </div>
           <!-- ./col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{ $children->count() }}</h3>
+                <h3>@if(!$children) {{0}} @else {{ $children->count() }} @endif</h3>
 
                 <p>Total Child</p>
               </div>
@@ -76,19 +90,19 @@
           </div>
 
            <!-- ./col -->
-           {{-- <div class="col-lg-3 col-6">
-            <!-- small box -->
-            <div class="small-box bg-primary">
-              <div class="inner">
-                <h3>{{ $users->where('user_type','child')->count() }}</h3>
+            {{-- <div class="col-lg-3 col-6">
+                <!-- small box -->
+                <div class="small-box bg-primary">
+                <div class="inner">
+                    <h3>{{ $users->where('user_type','child')->count() }}</h3>
 
-                <p>Total Child</p>
-              </div>
-              <div class="icon">
-                <i class="ion ion-person"></i>
-              </div>
-            </div>
-          </div> --}}
+                    <p>Total Child</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person"></i>
+                </div>
+                </div>
+            </div> --}}
 
         </div>
         <!-- /.row -->

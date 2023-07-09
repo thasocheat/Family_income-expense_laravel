@@ -178,7 +178,7 @@ userIsChild --}}
 
         {{-- Income --}}
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['incomes.index','incomes.create']) ? 'active' : '' }}">
             <i class="nav-icon fas fa-chart-pie"></i>
             <p>
               Income
@@ -187,23 +187,18 @@ userIsChild --}}
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a href="{{route('income_view')}}" class="nav-link">
+              <a href="{{route('incomes.index')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>View Income</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="pages/charts/flot.html" class="nav-link">
+              <a href="{{route('incomes.create')}}" class="nav-link">
                 <i class="far fa-circle nav-icon"></i>
                 <p>Create Income</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="pages/charts/inline.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Add Income Category</p>
-              </a>
-            </li>
+           
 
           </ul>
         </li>
@@ -265,7 +260,7 @@ userIsChild --}}
 
 
             </ul>
-          </li>
+        </li>
 
          {{-- Expense Category --}}
         <li class="nav-item">

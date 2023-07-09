@@ -47,11 +47,11 @@
             </div>
           </div>
           <!-- ./col -->
-          {{-- <div class="col-lg-3 col-6">
+          <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{ $users->count() }}</h3>
+                <h3>{{ $expenseCategories->count() }}</h3>
 
                 <p>Total Category Expense</p>
               </div>
@@ -59,7 +59,7 @@
                 <i class="ion ion-person"></i>
               </div>
             </div>
-          </div> --}}
+          </div>
           <!-- ./col -->
           {{-- <div class="col-lg-3 col-6">
             <!-- small box -->

@@ -47,10 +47,18 @@
 <script src="{{asset('backends')}}/js/uploader_bootstrap.js"></script>
 <script src="{{asset('backends')}}/js/validate.min.js"></script>
 
+<!-- Select2 -->
+<script src="{{asset('backends')}}/plugins/select2/js/select2.full.min.js"></script>
 
 
 
 <script>
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+    theme: 'bootstrap4'
+    })
      //Date picker
      $('#date_of_birth').datetimepicker({
         format: 'L'

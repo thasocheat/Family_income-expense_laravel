@@ -71,6 +71,12 @@ class User extends Authenticatable
         return $this->hasMany(IncomeCategory::class, 'created_by_id');
     }
 
+     // Income
+     public function incomes()
+     {
+         return $this->hasMany(Income::class, 'created_by_id');
+     }
+
     // Expense Category
     public function expenseCategories()
     {

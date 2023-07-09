@@ -59,7 +59,7 @@
                                             <div class="form-group row">
                                                 <label for="gender" class="col-lg-3 col-form-label font-weight-semibold">Gender: <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <select class="select form-control" id="gender" name="gender" required data-fouc data-placeholder="Choose..">
+                                                    <select class="select form-control" id="gender" name="gender" data-fouc data-placeholder="Choose..">
                                                         <option value=""></option>
                                                         <option {{ $pro_edit->gender == 'Male' ? 'selected' : '' }} value="Male">Male</option>
                                                         <option {{ $pro_edit->gender  == 'Female' ? 'selected' : '' }} value="Female">Female</option>
@@ -127,21 +127,21 @@
                                             <div class="form-group row">
                                                 <label for="current_password" class="col-lg-3 col-form-label font-weight-semibold">Current Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="current_password" name="current_password"  required type="password" class="form-control" >
+                                                    <input id="current_password" name="current_password"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="password" class="col-lg-3 col-form-label font-weight-semibold">New Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="password" name="password"  required type="password" class="form-control" >
+                                                    <input id="password" name="password"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="password_confirmation" class="col-lg-3 col-form-label font-weight-semibold">Confirm Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="password_confirmation" name="password_confirmation"  required type="password" class="form-control" >
+                                                    <input id="password_confirmation" name="password_confirmation"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 
@@ -180,21 +180,21 @@
                                             <div class="form-group row">
                                                 <label for="current_password" class="col-lg-3 col-form-label font-weight-semibold">Current Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="current_password" name="current_password"  required type="password" class="form-control" >
+                                                    <input id="current_password" name="current_password"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="password" class="col-lg-3 col-form-label font-weight-semibold">New Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="password" name="password"  required type="password" class="form-control" >
+                                                    <input id="password" name="password"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="password_confirmation" class="col-lg-3 col-form-label font-weight-semibold">Confirm Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
-                                                    <input id="password_confirmation" name="password_confirmation"  required type="password" class="form-control" >
+                                                    <input id="password_confirmation" name="password_confirmation"  type="password" class="form-control" >
                                                 </div>
                                             </div>
 

@@ -15,6 +15,7 @@ class ChildController extends Controller
         if (Qs::userIsCount()) {
             // Retrieve income categories, income records, children, and more specific to the parent
             $data['incomeCategories'] = auth()->user()->incomeCategories;
+            $data['expenseCategories'] = auth()->user()->expenseCategories;            
             $data['incomes'] = auth()->user()->incomes;
             $data['parent'] = auth()->user()->parent;
             // Add more data you want to retrieve here

@@ -104,6 +104,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         Route::get('/view/childs/{cr_id}', [App\Http\Controllers\Admin\ChildRecordsController::class, 'show'])->name('childs.show');
+
         Route::get('/edit/childs/{cr_id}', [App\Http\Controllers\Admin\ChildRecordsController::class, 'edit'])->name('childs.edit');
 
 
@@ -150,6 +151,29 @@ Route::group(['middleware' => 'auth'], function () {
          Route::get('/destroy/incomes_category/{category_id}', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'destroy'])->name('in_category.destroy');
 
          Route::post('/store/incomes_category', [App\Http\Controllers\Admin\IncomesCategoryController::class, 'store'])->name('in_category.store');
+
+
+
+
+
+
+         // Income route
+
+         Route::get('/view/incomes', [App\Http\Controllers\Admin\IncomesController::class, 'index'])->name('incomes.index');
+
+         Route::get('/create/incomes', [App\Http\Controllers\Admin\IncomesController::class, 'create'])->name('incomes.create');
+
+         Route::get('/edit/incomes/{income}', [App\Http\Controllers\Admin\IncomesController::class, 'edit'])->name('incomes.edit');
+
+         Route::put('/update/incomes/{income}', [App\Http\Controllers\Admin\IncomesController::class, 'update'])->name('incomes.update');
+
+         Route::get('/destroy/incomes/{income}', [App\Http\Controllers\Admin\IncomesController::class, 'destroy'])->name('incomes.destroy');
+
+         Route::post('/store/incomes', [App\Http\Controllers\Admin\IncomesController::class, 'store'])->name('incomes.store');
+
+
+
+
 
 
          // Expense Category route

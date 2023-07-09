@@ -27,4 +27,10 @@ class IncomeCategory extends Model
         return $this->belongsTo(User::class, 'created_by_id');
     }
 
+    // Relation to income model
+    public function incomes()
+    {
+        return $this->hasMany(Income::class, 'income_category_id');
+    }
+
 }

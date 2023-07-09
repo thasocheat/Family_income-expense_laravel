@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->date('entry_date')->nullable();
             $table->string('amount');
-            $table->unsignedInteger('currency_id')->nullable();
+            $table->string('description');
+            $table->unsignedInteger('income_category_id')->nullable();
             $table->unsignedInteger('created_by_id')->nullable();
             $table->timestamps();
         });

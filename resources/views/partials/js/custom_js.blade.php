@@ -59,19 +59,30 @@
     {{--End Notifications--}}
 
     function pop(data){
-        swal({
+        Swal.fire({
             title: data.title ? data.title : 'Oops...',
             text: data.msg,
-            icon: data.type
+            icon: data.type,
+            
         });
+        // swal({
+        //     title: data.title ? data.title : 'Oops...',
+        //     text: data.msg,
+        //     icon: data.type
+        // });
     }
 
     function flash(data){
-        new PNotify({
+        Swal.fire({
             text: data.msg,
             type: data.type,
             hide : data.type !== "danger"
         });
+        // new PNotify({
+        //     text: data.msg,
+        //     type: data.type,
+        //     hide : data.type !== "danger"
+        // });
     }
 
     $(function(){
