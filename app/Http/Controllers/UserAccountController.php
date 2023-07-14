@@ -67,10 +67,27 @@ class UserAccountController extends Controller
         // Update user data on specific user data
         $data = $user->username ? $req->only(['email','gender','phone','phone2','address','photo']) : $req->only(['email','gender','phone','phone2','address','username','photo']);
 
-        // Check
-        if(!$user->username && !$req->username && $req->email){
-            return back()->with('pop_error',__('Please! put your username and email.'));
+        // Check if required fields are missing
+        $requiredFields = ['username', 'email'];
+        $missingFields = array_filter($requiredFields, function ($field) use ($req){
+            return empty($req->{$field});
+        });
+
+        if(count($missingFields) === count($requiredFields)){
+            $notification = array(
+                'message' => 'Please enter your username and email.',
+                'alert-type' => 'error'
+            );
+            return back()->with($notification);
         }
+
+        // if(!$user->username && !$req->username && $req->email){
+        //     $notification = array(
+        //         'message' => 'Please enter your username and email.',
+        //         'alert-type' => 'error'
+        //     );
+        //     return back()->with($notification);
+        // }
 
         $user_type = $user->user_type;
         $code = $user->code;
@@ -88,11 +105,32 @@ class UserAccountController extends Controller
 
         $this->user->update($user->id, $data);
 
+         // Check if the form is submitted without any changes
+         $isDataChanged = false;
+         foreach($data as $field => $value){
+            if($user->{$field} !== $value){
+                $isDataChanged = true;
+                break;
+            }
+         }
+        //  If have any change the return the sucessfull message
+         if ($isDataChanged){
+            $this->user->update($user->id, $data);
+            $notification = array(
+                'message' => 'Profile Updated Successfully',
+                'alert-type' => 'success'
+            );
+
+        }else{
+            // If no change the return into message
+            $notification = array(
+                'message' => 'No changes made to the profile.',
+                'alert-type' => 'info'
+            );
+        }
         // return back()->with('flash_success',__('msg.update_ok'));
-        $notification = array(
-            'message' => 'Profile Updated Successfully',
-            'alert-type' => 'success'
-        );
         return back()->with($notification);
+
+
     }
 }

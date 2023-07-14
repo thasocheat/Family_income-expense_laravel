@@ -43,6 +43,9 @@
                                                     <label for="username" class="col-lg-3 col-form-label font-weight-semibold">Username</label>
                                                     <div class="col-lg-9">
                                                         <input id="username" class="form-control" type="text" value="{{ $pro_edit->username }}">
+                                                        @error('username')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     </div>
                                                 </div>
 
@@ -52,6 +55,9 @@
                                                     <label for="username" class="col-lg-3 col-form-label font-weight-semibold">Username </label>
                                                     <div class="col-lg-9">
                                                         <input id="username" name="username"  type="text" class="form-control" >
+                                                        @error('username')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                     </div>
                                                 </div>
                                             @endif
@@ -71,6 +77,9 @@
                                                 <label for="email" class="col-lg-3 col-form-label font-weight-semibold">Email </label>
                                                 <div class="col-lg-9">
                                                     <input id="email" value="{{ $pro_edit->email }}" name="email"  type="email" class="form-control" >
+                                                    @error('email')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
                                                 </div>
                                             </div>
 
@@ -181,6 +190,9 @@
                                                 <label for="current_password" class="col-lg-3 col-form-label font-weight-semibold">Current Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
                                                     <input id="current_password" name="current_password"  type="password" class="form-control" >
+                                                     @error('current_password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -188,6 +200,9 @@
                                                 <label for="password" class="col-lg-3 col-form-label font-weight-semibold">New Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
                                                     <input id="password" name="password"  type="password" class="form-control" >
+                                                     @error('password')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
 
@@ -195,6 +210,9 @@
                                                 <label for="password_confirmation" class="col-lg-3 col-form-label font-weight-semibold">Confirm Password <span class="text-danger">*</span></label>
                                                 <div class="col-lg-9">
                                                     <input id="password_confirmation" name="password_confirmation"  type="password" class="form-control" >
+                                                     @error('password_confirmation')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
                                                 </div>
                                             </div>
 

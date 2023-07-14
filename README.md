@@ -9,13 +9,16 @@
 
 ## How to use
 - git clone
-- copy .env.example and change to .even
+- copy .env.example and change to .eve
 - and change your database name 
-- composer update or composer install
-- php artisan keygenerate
+- composer update it will download a new or lastest dependencies.
+- composer install it will download the same as my project dependencies, 
+  about two month ago when I create      this project.
+- php artisan key:generate
 - php artisan migrate:fresh --seed
+- php artisan storage:link
 - php artisan serve
-- for the user you can look at the seed file
+- for the user you can look at the seed file.
 
 ## About Laravel
 
