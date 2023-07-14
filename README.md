@@ -9,7 +9,7 @@
 
 ## How to use
 - git clone
-- copy .env.example and change to .eve
+- copy .env.example and change to .env
 - and change your database name 
 - composer update it will download a new or lastest dependencies.
 - composer install it will download the same as my project dependencies, 
