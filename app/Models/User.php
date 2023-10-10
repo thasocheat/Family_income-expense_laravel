@@ -3,9 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Income;
+use App\Models\ChildRecord;
+use App\Models\StaffRecord;
+use App\Models\IncomeCategory;
+use App\Models\ExpenseCategory;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,10 +59,10 @@ class User extends Authenticatable
         return $this->hasMany(ChildRecord::class, 'my_parent_id');
     }
 
-    public function staff()
-    {
-        return $this->hasOne(StaffRecord::class);
-    }
+    // public function staff()
+    // {
+    //     return $this->hasOne(StaffRecord::class);
+    // }
 
     public function findByEmail($query, $email)
     {

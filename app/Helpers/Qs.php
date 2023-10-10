@@ -46,7 +46,7 @@ class Qs
     // Function to get default user profile
     public static function getDefaultUserImage()
     {
-        return 'backends/images/user/user.png';
+        return 'storage/uploads/default-photo.png';
     }
 
     // Get all user type
@@ -62,7 +62,23 @@ class Qs
     //     return in_array(IncomeCategory::all());
     // }
 
+    public static function months(){
+        return[
+            1 => 'January',
+            2 => 'Feb',
+            3 => 'Mar',
+            4 => 'Apr',
+            5 => 'May',
+            6 => 'Jun',
+            7 => 'Jul',
+            8 => 'August',
+            9 => 'Sep',
+            10 => 'Oct',
+            11 => 'Nov',
+            12 => 'Des',
 
+        ];
+    }
 
 
 
@@ -100,7 +116,7 @@ class Qs
 
     // All Admin and parent function
     public static function getAP(){
-        return ['admin','parent'];
+        return ['admin','parent','child'];
     }
 
     public static function findMyChildren($parent_id)
@@ -141,7 +157,7 @@ class Qs
     public static function getTeamPA()
     {
         // return ['admin'];
-        return ['admin','parent'];
+        return ['parent'];
 
     }
     public static function getTeamPAT()

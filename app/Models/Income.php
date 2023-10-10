@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Income extends Model
 {
     use HasFactory;
+    protected $table = 'incomes';
 
-    protected $fillable = ['entry_date', 'amount', 'income_category_id', 'created_by_id'];
+
+    protected $fillable = ['entry_date', 'amount','currency_code', 'income_category_id', 'created_by_id'];
 
     public function setIncomeCategoryIdAttribute($input)
     {
@@ -40,13 +42,13 @@ class Income extends Model
     {
         $this->attributes['created_by_id'] = $input ? $input : null;
     }
-    
-    // Have relationship to incomeCategory table by 
+
+    // Have relationship to incomeCategory table by
     public function income_category()
     {
         return $this->belongsTo(IncomeCategory::class, 'income_category_id');
     }
-    
+
     // Have relationship to user table
     public function created_by()
     {

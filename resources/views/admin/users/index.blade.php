@@ -165,7 +165,17 @@
                                     @foreach($users->where('user_type', $ut->title) as $u)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"></td>
+                                            <td>
+                                                @if(!empty($u->photo))
+
+                                                    <img src="{{  $u->photo }}" alt="{{  $u->name }}" srcset="" width="100" height="auto">
+                                                    
+                                                @else
+                                                    <img src="{{ asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+
+                                                @endif
+                                                {{-- <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"> --}}
+                                            </td>
                                             <td>{{ $u->name }}</td>
                                             <td>{{ $u->username }}</td>
                                             <td>{{ $u->phone }}</td>

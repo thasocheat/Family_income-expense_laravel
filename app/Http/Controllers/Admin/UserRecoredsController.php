@@ -11,6 +11,7 @@ use App\Repositories\UserRepo;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class UserRecoredsController extends Controller
 
     public function __construct(UserRepo $user)
     {
-        $this->middleware('teamPA', ['only' => ['store', 'edit', 'update','reset_pass'] ]);
+        // $this->middleware('teamPA', ['only' => ['store', 'edit', 'update','reset_pass'] ]);
 
         $this->middleware('admin', ['only' => ['destroy'] ]);
 
@@ -41,6 +42,7 @@ class UserRecoredsController extends Controller
 
         $d['user_types'] = Qs::userIsAdmin() ? $ut2 : $ut;
         $d['users'] = $this->user->getPTAUsers();
+
 
 
         return view('admin.users.user_list', $d);
@@ -94,20 +96,18 @@ class UserRecoredsController extends Controller
     {
         $user_type = $this->user->findType($req->user_type)->title;
 
-        $data = $req->except(Qs::getStaffRecord());
+        // $data = $req->except(Qs::getStaffRecord());
         $data['name'] = ucwords($req->name);
         $data['user_type'] = $user_type;
         $data['photo'] = Qs::getDefaultUserImage();
         $data['code'] = strtoupper(Str::random(10));
-        // $data['dob'] = ;
+        $data['email'] = $req->email;
+        $data['dob'] = $req->dob;
+        $data['address'] = $req->address;
 
 
-        $user_is_staff = in_array($user_type, Qs::getStaff());
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
 
-        // $staff_id = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
-        $staff_id = strtoupper(Str::random(10));
-        // $data['username'] = $uname = ($user_is_teamPA) ? $req->username : $staff_id;
         $data['username'] = $uname = ($user_is_teamPA) ? $req->username : $req->username;
 
 
@@ -124,40 +124,29 @@ class UserRecoredsController extends Controller
                 $data['photo'] = 'storage/' . $f['path']; // Directory to save into database
 
             }
-            // else {
-            //     // If photo is not present, assign the default photo path
-            //     $data['photo'] = 'storage/uploads/default-photo.png';
-            // }
+
         } catch (HttpResponseException $req) {
             // Log or handle the exception
-            return back()->with('flash_error', 'Failed to upload the file. Please try again.');
+            return back()->with('error', 'Failed to upload the file. Please try again.');
         }
-
 
 
 
         /* Ensure that both username and Email are not blank*/
         if(!$uname && !$req->email){
-            return back()->with('pop_error', __('msg.user_invalid'));
+            return back()->with('error', __('msg.user_invalid'));
         }
 
         $user = $this->user->create($data); // Create User
 
-        /* CREATE STAFF RECORD */
-        if($user_is_staff){
-            $d2 = $req->only(Qs::getStaffRecord());
-            $d2['user_id'] = $user->id;
-            $d2['code'] = $staff_id;
-            $this->user->createStaffRecord($d2);
-        }
+
 
         $notification = array(
             'message' => 'User Store Successfully',
             'alert-type' => 'success'
         );
 
-        // return back()->with('flash_success', 'Data save successfully.');
-        return Redirect()->back()->with($notification);
+        return back()->with($notification);
     }
 
     /**
@@ -222,78 +211,85 @@ class UserRecoredsController extends Controller
      */
     public function update(UserRequest $req, $id)
     {
-        $id = Qs::decodeHash($id);
-        $user_id = intval($id);
 
+        $user_id = Qs::decodeHash($id);
 
-
-        // Redirect if Making Changes to Head of Super Admins
-        if(Qs::headA($user_id)){
-            return Qs::json(__('msg.denied'), FALSE);
-        }
 
         $user = $this->user->find($id);
+        // $user = User::findOrFail($user_id);
+
+        if(!$user){
+            $notification = array(
+                'message' => 'User not found',
+                'alert-type' => 'error'
+            );
+        return back()->with($notification);
+
+        }
 
         $user_type = $user ? $user->user_type : null;
 
-        $user_is_staff = in_array($user_type, Qs::getStaff());
+        // Validate and update user data
+        $data = [
+            'name' => ucwords($req->name),
+            'dob' => $req->dob,
+            'code' => strtoupper(Str::random(10)),
+            'address' => $req->address,
+            'email' => $req->email,
+            'phone' => $req->phone,
+            'phone2' => $req->phone2,
+            'gender' => $req->gender,
+        ];
+
         $user_is_teamPA = in_array($user_type, Qs::getTeamPA());
 
-        $data = $req->except(Qs::getStaffRecord());
-        $data['name'] = ucwords($req->name);
+        // Update the username based on user type
+        $data['username'] = ($user_is_teamPA) ? $req->username : $req->username;
 
-        if (!$user_is_staff || $user_is_teamPA) {
-            unset($data['email']);
+
+        // Update the password if a new password is provided
+        if($req->has('password')){
+            $data['password'] = Hash::make($req->password);
         }
-
-        // if (!$user) {
-        //     $notification = array(
-        //         'message' => 'User not found',
-        //         'alert-type' => 'error'
-        //     );
-        //    return back()->with($notification);
-        // }
-
-        if($user_is_staff && !$user_is_teamPA){
-        $data['username'] = $uname = ($user_is_teamPA) ? $user->username : $user->username;
-
-            // $data['username'] = Qs::getAppCode().'/STAFF/'.date('Y/m', strtotime($req->emp_date)).'/'.mt_rand(1000, 9999);
-            // $data['username'] = Qs::getAppCode();
-
-        }
-        else {
-            // $data['username'] = $user->username;
-            if (!$user) {
-                // $data['username'] = $user->username; // Retain the old username value
-            $data['username'] = $uname = ($user_is_teamPA) ? $user->username : $user->username;
-
-            }
-        }
-
 
         if($req->hasFile('photo')) {
+
+            if($req->hasFile('photo')){
+                // Get the old photo path
+                $oldPhotoPath = public_path($user->photo);
+
+                // Delete the old photo if it exists
+                if(file_exists($oldPhotoPath)){
+                    unlink($oldPhotoPath);
+                }
+            }
+
+
+            // Upload and store the new photo
             $photo = $req->file('photo');
             $f = Qs::getFileMetaData($photo);
             $f['name'] = $data['code'] .'.'. $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
             $data['photo'] = 'storage/' . $f['path'];
+
+
+
         }
 
+
+        // $user->update($data);   /* UPDATE USER RECORD */
         $this->user->update($id, $data);   /* UPDATE USER RECORD */
 
-        /* UPDATE STAFF RECORD */
-        if(in_array($user_type, Qs::getStaff())){
-            $d2 = $req->only(Qs::getStaffRecord());
-            $d2['code'] = $data['username'];
-            $this->user->updateStaffRecord(['user_id' => $id], $d2);
-        }
 
         $notification = array(
             'message' => 'User Update Successfully',
-            'alert-type' => 'info'
+            'alert-type' => 'success'
         );
 
         return back()->with($notification);
+
+
+
     }
 
     /**

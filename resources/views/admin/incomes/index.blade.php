@@ -4,10 +4,10 @@
 
 <div class="content-wrapper">
     <div class="content-header">
-        
+
         <div class="container-fluid">
 
-           
+
 
     <div class="card">
         <div class="card-header">
@@ -16,15 +16,15 @@
         <!-- /.card-header -->
         <div class="card-body">
             @if(count($incomes) > 0)
-           
-                <table class="table table-bordered">
+
+                <table class="table table-bordered text-center">
                     <thead>
                     <tr>
                         <th>S/N</th>
                         <th>Income Name</th>
                         <th>Amount</th>
                         <th>Description</th>
-                        <th>Date</th>                                        
+                        <th>Date</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -33,7 +33,7 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $income->income_category->name ?? '' }}</td>
-                            <td>{{ $income->amount }}</td>
+                            <td>{{ $income->amount_with_curency }}</td>
                             <td>{{ $income->description }}</td>
                             <td>{{ $income->entry_date }}</td>
                             <td class="text-center">
@@ -43,7 +43,7 @@
                                             {{-- <a href="{{ route('incomes.show', [$income->id]) }}" class="fas fa-view "><i class="fa-eye"></i></a> --}}
                                             <a href="{{ route('incomes.edit', [$income->id]) }}" class="fas fa-edit "><i class="icon-pencil"></i></a>
 
-                                            <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', [$income->id]) }}" class="fas fa-delete "><i class="fa-trash"></i></a>
+                                            <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('incomes.destroy', [$income->id]) }}" class="fas fa-delete "><i class="fa-trash"></i></a>
                                             {{-- <form method="post" id="item-delete-{{ $income->id }}" action="{{ route('users.destroy', [$income->id]) }}" class="hidden">@csrf @method('delete')</form> --}}
 
                                     </div>
@@ -53,7 +53,7 @@
                         @endforeach
 
                     </tbody>
-                </table>   
+                </table>
             @else
                 <table class="table table-bordered">
                     <thead>
@@ -62,7 +62,7 @@
                         <th>Income Name</th>
                         <th>Amount</th>
                         <th>Description</th>
-                        <th>Date</th>                                        
+                        <th>Date</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -86,7 +86,7 @@
       </div>
 
         </div>
-            
+
         </div>
     </div>
 

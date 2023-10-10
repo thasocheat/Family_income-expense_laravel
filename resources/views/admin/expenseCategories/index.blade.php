@@ -24,12 +24,12 @@
                     <div class="tab-content">
 
                         @if(count($ex_category) > 0)
-                            <table class="table datatable-button-html5-columns">
+                            <table class="table datatable-button-html5-columns text-center table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>S/N</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
+                                    <th class="col-1">S/N</th>
+                                    <th class="col-7">Name</th>
+                                    <th class="col-4">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>

@@ -30,15 +30,27 @@ class IncomesController extends Controller
             // But if parent and child user then they can see only they incomes
             $data['incomes'] = auth()->user()->incomes;
         }
-        
 
-        // foreach($incomes as $income){
-        //     // Dump the category object for each income
-        //     dump($income->income_category);
-        // }
+
+        foreach($data['incomes'] as $income){
+            // Concatenate amount and currency_code
+            $income->amount_with_curency = $income->amount . ' '. $income->currency_code;
+        }
 
         return view('admin.incomes.index', $data);
     }
+
+    // count amounts of income from database
+    // public function countData() {
+    //     // $counts = DB::table('incomes')->count();
+    //     $counts = Income::count();
+
+    //     if($count > 0) {
+    //         return view('frontpages.layout.master_frontpage', $compact('counts'));
+    //     }else {
+    //         return view('frontpages.layout.master_frontpage', $compact('counts', 'Your income is 0'));
+    //     }
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -58,9 +70,10 @@ class IncomesController extends Controller
         $income = new Income();
         $income->entry_date = $req->input('entry_date');
         $income->amount = $req->input('amount');
+        $income->currency_code = $req->input('currency_code');
         $income->description = $req->input('description');
         $income->income_category_id = $req->input('income_category_id');
-        
+
         // Assign the id of the authentication user
         $income->created_by_id = Auth::id();
 
@@ -100,6 +113,7 @@ class IncomesController extends Controller
     {
         $income->entry_date = $req->input('entry_date');
         $income->amount = $req->input('amount');
+        $income->currency_code = $req->input('currency_code');
         $income->description = $req->input('description');
         $income->income_category_id = $req->input('income_category_id');
         $income->save();
@@ -118,7 +132,8 @@ class IncomesController extends Controller
     public function destroy(Income $income)
     {
         // Check if the user that create the income data or is admin then
-        if(Auth::user()->user_type === 'admin' || $income->create_by_id === Auth::id()){
+        // if(Auth::user()->user_type === 'admin' || $income->create_by_id === Auth::id()){
+        if(Auth::user()->user_type === 'admin' || Auth::user()->user_type === 'parent' || Auth::user()->user_type === 'child'){
             $income->delete();
 
 
@@ -126,8 +141,8 @@ class IncomesController extends Controller
                 'message' => 'Income Delete Successfully',
                 'alert-type' => 'success'
             );
-    
-    
+
+
             return redirect()->route('incomes.index')->with($notification);
         } else{
             abort(404, 'Unauthorized');

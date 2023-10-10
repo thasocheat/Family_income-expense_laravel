@@ -25,7 +25,9 @@
                         <form action="{{ route('incomes.update',$income->id) }}" method="POST">
                             @csrf @method('PUT')
 
-                            <div class="col-md-4">
+                            <div class="row">
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="entry_date">Entry Date</label>
                                     <input value="{{ $income->entry_date }}" type="date" name="entry_date" class="form-control">
@@ -35,7 +37,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input value="{{ $income->amount }}" type="number" name="amount" class="form-control" >
@@ -45,21 +47,10 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea value="{{ $income->description }}" name="description" class="form-control" rows="3" placeholder="Enter ...">{{ $income->description }}</textarea>
-                                    @error('description')
-                                        <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                  </div>
-                               
-                            </div>
-                            
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="income_category_id">Income Category: <span class="text-danger">*</span></label>
-                                    <select class="select form-control" id="income_category_id" name="income_category_id"  data-fouc data-placeholder="Choose..">
+                                    <select class="select form-control select3" id="income_category_id" name="income_category_id"  data-fouc data-placeholder="Choose..">
                                         @foreach($categories as $category)
                                             <option value="{{ $category->id }}" {{ $category->id === $income->income_category_id ? 'selected' : '' }} >{{ $category->name }}</option>
                                                 {{ $category->name }}
@@ -71,9 +62,38 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                               
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="currency_code">Curreny:  <span class="text-danger">*</span></label>
+                                    <select class="select form-control select3" id="currency_code" name="currency_code"  data-fouc data-placeholder="Choose..">
+                                        <option value="KHR" {{$income->currency_code === 'KHR' ? 'selected':''}}>KHR</option>
+                                        <option value="USD" {{$income->currency_code === 'USD' ? 'selected':''}}>USD</option>
+                                    </select>
+                                    @error('currency_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea value="{{ $income->description }}" name="description" class="form-control" rows="3" placeholder="Enter ...">{{ $income->description }}</textarea>
+                                        @error('description')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                      </div>
+                                </div>
+                            </div>
+
+                            {{-- <div class="row"> --}}
+                                <button type="submit" class="btn btn-primary">Update</button>
+                            {{-- </div> --}}
                         </form>
 
                     </div>
@@ -82,7 +102,7 @@
 
             </div>
 
-            
+
 
         </div>
     </div>
@@ -92,6 +112,6 @@
 
 
 
-    
+
 
 @endsection

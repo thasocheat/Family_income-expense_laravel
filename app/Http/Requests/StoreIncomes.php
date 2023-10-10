@@ -24,12 +24,9 @@ class StoreIncomes extends FormRequest
         return [
             'entry_date' => 'nullable|date',
             'amount' => 'required|string',
+            'currency_code' => 'required|string|max:3',
             'description' => 'required|string',
             'income_category_id' => 'required|exists:income_categories,id',
-
-            
-
-
         ];
     }
 }

@@ -32,7 +32,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="new-user">
-                            <table class="table datatable-button-html5-columns">
+                            <table class="table datatable-button-html5-columns text-center">
                                     <thead>
                                     <tr>
                                         <th>S/N</th>
@@ -47,49 +47,50 @@
                                     <tbody>
                                     @foreach($users as $u)
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            {{-- <td>
-                                                @if (!empty($users->photo))
-                                                @php
-                                                    $imageUrl = asset('storage/uploads/' . $userType . '/' . basename($imageName));
-
-                                                    $relativeUrl = str_replace(asset('/'), '', $imageUrl);
-                                                @endphp
+                                            <td class="text-sm" style="word-break: break-word">{{ $loop->iteration }}</td>
+                                            <td>
+                                                @if (!empty($u->photo))
+                                                    @php
+                                                        $imageUrl = asset($u->photo);
+                                                    @endphp
                                                     <img width="50" src="{{ $imageUrl }}" alt="User Photo">
                                                 @else
 
                                                     <img width="50" src="{{ asset('storage/uploads/default-photo.png') }}" alt="Default Photo">
 
                                                 @endif
-                                            </td> --}}
-                                            <td><img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ asset($u->photo) }}" alt="photo"></td>
-                                            <td>{{ $u->name }}</td>
+                                            </td>
+
+                                            <td class="text-sm" style="word-break: break-word">{{ $u->name }}</td>
                                             {{-- <td>{{ $u->username }}</td> --}}
-                                            <td>{{ $u->phone }}</td>
+                                            <td class="text-sm" style="word-break: break-word">{{ $u->phone }}</td>
 
 
-                                            <td>{{ $u->email }}</td>
-                                            <td class="text-center">
+                                            <td class="text-sm" style="word-break: break-word">{{ $u->email }}</td>
+                                            <td class="text-sm" style="word-break: break-word">
                                                 <div class="list-icons">
                                                     <div class="dropdown">
+                                                        <div class="btn-group">
+                                                            <button type="button" class="btn btn-sm btn-primary">Select</button>
+                                                            <button type="button" class="btn btn-sm btn-primary dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                                                              {{-- <span class="sr-only">Toggle Dropdown</span> --}}
+                                                            </button>
+                                                            <div class="dropdown-menu" role="menu">
+                                                                {{--View Profile--}}
+                                                                <a href="{{ route('users.show', Qs::hash($u->id)) }}" title="View" class="fas fa-view p-1"><i class="fa-eye mr-1"></i> Show</a><br>
+                                                                {{--Edit--}}
+                                                                <a href="{{ route('users.edit', Qs::hash($u->id)) }}" title="Edit" class="fas fa-edit p-1"><i class="icon-pencil mr-1"></i> Edit</a><br>
+                                                                {{-- @if(Qs::userIsAdmin()) --}}
 
-                                                            {{--View Profile--}}
-                                                            <a href="{{ route('users.show', Qs::hash($u->id)) }}" title="View" class="fas fa-view p-1"><i class="fa-eye"></i></a>
-                                                            {{--Edit--}}
-                                                            <a href="{{ route('users.edit', Qs::hash($u->id)) }}" title="Edit" class="fas fa-edit p-1"><i class="icon-pencil"></i></a>
-                                                        {{-- @if(Qs::userIsAdmin()) --}}
-
-                                                                <a id="{{ Qs::hash($u->id) }}" onclick="confirmReset(this.id)" href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" title="Reset Password" class="fas fa-reset p-1"><i class="fa-box"></i></a>
+                                                                <a id="{{ Qs::hash($u->id) }}" onclick="confirmReset(this.id)" href="{{ route('users.reset_pass', Qs::hash($u->id)) }}" title="Reset Password" class="fas fa-reset p-1"><i class="fa-box mr-1"></i> Reset Password</a><br>
                                                                 <form method="post" id="item-reset-{{ Qs::hash($u->id) }}" action="{{ route('users.reset_pass', Qs::hash($u->id)) }}" class="hidden"> @csrf @method('delete') </form>
-
                                                                 {{--Delete--}}
                                                                 {{-- <a id="delete"  href="{{ route('users.destroy', Qs::hash($u->id)) }}" title="Delete" class="fas fa-delete p-1"><i class="fa-trash"></i></a> --}}
                                                                 {{-- <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i></a> --}}
-                                                                <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash"></i></a>
-
+                                                                <a id="delete" onclick="confirmDelete(this.id)" href="{{ route('users.destroy', Qs::hash($u->id)) }}" class="fas fa-delete p-1"><i class="fa-trash mr-1"></i> Delete</a>
                                                                 {{-- <form method="post" id="item-delete-{{ Qs::hash($u->id) }}" action="{{ route('users.destroy', Qs::hash($u->id)) }}" class="hidden">@csrf @method('delete')</form> --}}
-                                                        {{-- @endif --}}
-
+                                                                {{-- @endif --}}
+                                                          </div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -157,7 +158,7 @@
 
             </div>
 
-           
+
 
         </div>
     </div>

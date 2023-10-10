@@ -24,18 +24,18 @@
                     <div class="tab-content">
 
                         @if(count($in_category) > 0)
-                            <table class="table datatable-button-html5-columns">
+                            <table class="table datatable-button-html5-columns text-center table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>S/N</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
+                                    <th class="col-1">S/N</th>
+                                    <th class="col-7">Name</th>
+                                    <th class="col-4">Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($in_category as $category)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
+                                        <td class="col-1">{{ $loop->iteration }}</td>
                                         <td>{{ $category->name }}</td>
                                         <td class="text-center">
                                             <div class="list-icons">

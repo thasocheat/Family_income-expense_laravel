@@ -31,6 +31,7 @@ class UserRequest extends FormRequest
             'name' => 'required|string|min:6|max:150',
             'password' => 'required|string|min:3|max:50',
             'user_type' => 'required',
+            'dob' => 'required',
             'gender' => 'required|string',
             'phone' => 'sometimes|nullable|string|min:6|max:20',
             'email' => 'required|nullable|email|max:100|unique:users',
@@ -41,6 +42,7 @@ class UserRequest extends FormRequest
         $update =  [
             'name' => 'required|string|min:6|max:150',
             'gender' => 'required|string',
+            'dob' => 'required',
             'phone' => 'sometimes|nullable|string|min:6|max:20',
             'phone2' => 'sometimes|nullable|string|min:6|max:20',
             'email' => 'sometimes|nullable|email|max:100|unique:users,id,'.$this->user,
@@ -53,7 +55,7 @@ class UserRequest extends FormRequest
             //     Rule::unique('users')->ignore($this->route('id')),
             //     // 'unique:users,email'
             // ],
-            'username' => 'sometimes|nullable|string|min:6|max:150|unique:users',
+            'username' => 'sometimes|nullable|string|min:3|max:150|unique:users,username,' . $this->route('id'),
 
             'photo' => 'sometimes|nullable|image|mimes:jpeg,gif,png,jpg|max:2048',
             'address' => 'required|string|min:6|max:120',

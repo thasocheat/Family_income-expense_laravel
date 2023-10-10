@@ -66,7 +66,7 @@
     $('#date_of_em').datetimepicker({
         format: 'L'
     });
-    
+
 
 
 </script>

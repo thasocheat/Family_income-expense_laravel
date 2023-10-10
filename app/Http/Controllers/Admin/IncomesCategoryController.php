@@ -116,8 +116,8 @@ class IncomesCategoryController extends Controller
                 'message' => 'Category Delete Successfully',
                 'alert-type' => 'success'
             );
-    
-    
+
+
             return redirect()->route('in_category.index')->with($notification);
         } else{
             abort(404, 'Unauthorized');

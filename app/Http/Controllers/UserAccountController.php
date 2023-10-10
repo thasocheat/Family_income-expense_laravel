@@ -10,6 +10,7 @@ use App\Http\Requests\UserUpdate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserChangePass;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserAccountController extends Controller
@@ -43,18 +44,34 @@ class UserAccountController extends Controller
 
         $user_id = Auth::user()->id;
         $my_pass = Auth::user()->password;
-        $old_pass = $req->current_passwrod;
+        $old_pass = $req->current_password;
         $new_pass = $req->password;
 
-        // Check if the password
+        // Check if the password if correct than return the success, if not error
         if(password_verify($old_pass, $my_pass)){
             //
             $data['password'] = Hash::make($new_pass);
             $this->user->update($user_id, $data);
 
-            return back()->with('pop_success',__('msg.p_reset'));
+            $notification = array(
+                'message' => 'Password changed successfully.',
+                'alert-type' => 'success'
+            );
+
+            return back()->with($notification);
+            // Debugging
+        // dd($old_pass, $my_pass);
+
+        }else{
+            $notificationrest = array(
+                'message' => 'You have fail to change the password!',
+                'alert-type' => 'error'
+            );
+            return back()->with($notificationrest);
+            // dd($old_pass, $my_pass);
         }
-        return back()->with('pop_error',__('msg.p_reset_fail'));
+
+        
 
 
     }
@@ -63,38 +80,58 @@ class UserAccountController extends Controller
     public function update_profile(UserUpdate $req){
 
         $user = Auth::user();
+        $user_id = $user->id;
+        
 
-        // Update user data on specific user data
-        $data = $user->username ? $req->only(['email','gender','phone','phone2','address','photo']) : $req->only(['email','gender','phone','phone2','address','username','photo']);
+        // Empty array for data updates
+        $data = [];
 
-        // Check if required fields are missing
-        $requiredFields = ['username', 'email'];
-        $missingFields = array_filter($requiredFields, function ($field) use ($req){
-            return empty($req->{$field});
-        });
-
-        if(count($missingFields) === count($requiredFields)){
-            $notification = array(
-                'message' => 'Please enter your username and email.',
-                'alert-type' => 'error'
-            );
-            return back()->with($notification);
+        // Check if the username field is provided in the request
+        if ($req->has('username')) {
+            $data['username'] = $req->input('username');
         }
 
-        // if(!$user->username && !$req->username && $req->email){
-        //     $notification = array(
-        //         'message' => 'Please enter your username and email.',
-        //         'alert-type' => 'error'
-        //     );
-        //     return back()->with($notification);
-        // }
+        // Check if the email field is provided in the request
+        if ($req->has('email')) {
+            $data['email'] = $req->input('email');
+        }
 
-        $user_type = $user->user_type;
-        $code = $user->code;
+        // Add other fields you want to update in a similar manner
+        if ($req->has('gender')) {
+            $data['gender'] = $req->input('gender');
+        }
+
+        if ($req->has('phone')) {
+            $data['phone'] = $req->input('phone');
+        }
+
+        if ($req->has('address')) {
+            $data['address'] = $req->input('address');
+        }
+
+        if ($req->has('phone2')) {
+            $data['phone2'] = $req->input('phone2');
+        }
+
+        if ($req->has('photo')) {
+            $data['photo'] = $req->input('photo');
+        }
 
 
-        if($req->hasFile('photo')){
+        if($req->hasFile('photo') && $req->file('photo')->isValid()){
+            
+            // Delete the old image
+            if(!empty($user->photo)){
+                // Extract the file name from the url and delete the file
+                $oldFileName = $user->photo;
+                Storage::delete($oldFileName);
+            }
+            
+            
+            
             $photo = $req->file('photo');
+            $user_type = $user->user_type;
+            $code = $user->code;
             $f = Qs::getFileMetaData($photo);
             $f['name'] = $code .'.'. $f['ext'];
             $f['path'] = $photo->storeAs(Qs::getUploadPath($user_type), $f['name'], 'public');
@@ -103,19 +140,11 @@ class UserAccountController extends Controller
 
         }
 
-        $this->user->update($user->id, $data);
 
-         // Check if the form is submitted without any changes
-         $isDataChanged = false;
-         foreach($data as $field => $value){
-            if($user->{$field} !== $value){
-                $isDataChanged = true;
-                break;
-            }
-         }
+         
         //  If have any change the return the sucessfull message
-         if ($isDataChanged){
-            $this->user->update($user->id, $data);
+         if (!empty($data)){
+            $this->user->update($user_id, $data);
             $notification = array(
                 'message' => 'Profile Updated Successfully',
                 'alert-type' => 'success'

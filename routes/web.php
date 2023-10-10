@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
+use App\Http\Controllers\Admin\ExpenseController;
+use App\Http\Controllers\Admin\MembersController;
 use App\Http\Controllers\Admin\UserRecoredsController;
+use App\Http\Controllers\Frontpage\FrontPageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +20,39 @@ use App\Http\Controllers\Admin\UserRecoredsController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontpages.layout.master_frontpage');
 });
 
 // This route is redirect to login page when seit is load
-Route::redirect('/', '/login');
+// Route::redirect('/', '/login');
 
 Auth::routes();
+
+// Backend language switch route
+//for switching language route
+Route::get('/lang/{locale}', function ($locale) {
+	Session::put('locale', $locale);
+	return redirect()->back();
+});
+
+// ==========================//
+// FRONTEND FOR FAMILY PAGE //
+// =========================//
+Route::group(['prefix' => 'frontpage'], function(){
+
+    Route::get('/', [App\Http\Controllers\Frontpage\FrontPageController::class, 'index'])->name('frontpage.index');
+
+    // Route::get('/out-story',[FrontPageController::class,'our_story'])->name('frontpage.out_story');
+
+    // Route::get('/events',[FrontPageController::class,'event'])->name('frontpage.events');
+
+    Route::get('/about',[FrontPageController::class,'about'])->name('frontpage.about');
+
+    Route::get('/contact',[FrontPageController::class,'contact'])->name('frontpage.contact');
+
+});
+
+
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -30,7 +60,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     // Admin dashboard route
-    // Route::get('/admin/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
+    Route::get('/admin/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');
 
 
 
@@ -43,7 +73,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::put('/change_password', [App\Http\Controllers\UserAccountController::class, 'change_pass'])->name('account_user.change_pass');
 
         // Update route
-        Route::put('/', [App\Http\Controllers\UserAccountController::class, 'update_profile'])->name('account_user.update');
+        Route::put('/change_profile', [App\Http\Controllers\UserAccountController::class, 'update_profile'])->name('account_user.update');
 
 
 
@@ -78,8 +108,8 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         Route::put('/update/users/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'update'])->name('users.update');
-        Route::get('/destroy/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
-        // Route::delete('/users/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+        // Route::get('/destroy/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
+        Route::get('/users/{id}', [App\Http\Controllers\Admin\UserRecoredsController::class, 'destroy'])->name('users.destroy');
 
 
 
@@ -89,7 +119,20 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
+        //=========== Member Profile Setting =============//
 
+        Route::get('/view/members/', [MembersController::class, 'mem_index'])->name('members.index');
+
+        Route::get('/create/members', [MembersController::class, 'mem_create'])->name('members.create');
+        Route::post('/store/members', [MembersController::class, 'mem_store'])->name('members.store');
+
+        Route::get('/show/members/{id}', [MembersController::class, 'mem_show'])->name('members.show');
+
+        Route::get('/edit/members/{id}', [MembersController::class, 'mem_edit'])->name('members.edit');
+        Route::put('/update/members/{id}', [MembersController::class, 'mem_update'])->name('members.update');
+
+
+        Route::get('/destroy/{id}', [MembersController::class, 'mem_destroy'])->name('members.destroy');
 
 
 
@@ -159,6 +202,8 @@ Route::group(['middleware' => 'auth'], function () {
 
          // Income route
 
+         Route::get('/view/counts', [App\Http\Controllers\Admin\IncomesController::class, 'countData'])->name('incomes.counts');
+
          Route::get('/view/incomes', [App\Http\Controllers\Admin\IncomesController::class, 'index'])->name('incomes.index');
 
          Route::get('/create/incomes', [App\Http\Controllers\Admin\IncomesController::class, 'create'])->name('incomes.create');
@@ -190,7 +235,42 @@ Route::group(['middleware' => 'auth'], function () {
          Route::put('/update/expense_category/{category_id}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'update'])->name('ex_category.update');
 
          Route::get('/destroy/expense_category/{category_id}', [App\Http\Controllers\Admin\ExpenseCategoryController::class, 'destroy'])->name('ex_category.destroy');
-         
+
+
+
+         // Expense  route
+
+         Route::get('/view/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'index'])->name('expenses.index');
+
+         Route::get('/create/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'create'])->name('expenses.create');
+         Route::post('/store/expenses', [App\Http\Controllers\Admin\ExpenseController::class, 'store'])->name('expenses.store');
+
+         Route::get('/edit/expenses/{expense}', [App\Http\Controllers\Admin\ExpenseController::class, 'edit'])->name('expenses.edit');
+         Route::put('/update/expenses/{expense}', [App\Http\Controllers\Admin\ExpenseController::class, 'update'])->name('expenses.update');
+
+                                    // បោះ id expense table ទៅចូល controller to delete.
+         Route::get('/destroy/expenses/{expense}', [App\Http\Controllers\Admin\ExpenseController::class, 'destroy'])->name('expenses.destroy');
+
+
+
+
+
+
+        // Report route
+        Route::get('/show/weekly/report', [App\Http\Controllers\Admin\ReportsController::class, 'view_weekly_index'])->name('show.weekly');
+        Route::get('/view/weekly/report', [App\Http\Controllers\Admin\ReportsController::class, 'weekly_index'])->name('view.weekly');
+        Route::get('/get/weekly/expense/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_weekly_expense'])->name('view.weekly.expense');
+
+        // Monthly report
+        Route::get('/show/monthly/report', [App\Http\Controllers\Admin\ReportsController::class, 'view_monthly_report'])->name('show.monthly');
+        Route::get('/get/monthly/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_monthly'])->name('view.monthly');
+        Route::get('/get/monthly/expense/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_monthly_expense'])->name('view.monthly.expense');
+
+        // Yearly report
+        Route::get('/get/yearly/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_yearly'])->name('view.yearly');
+
+
+
 
 
     });

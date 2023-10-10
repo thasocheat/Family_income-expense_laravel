@@ -7,6 +7,14 @@
   <title>AdminLTE 3 | Dashboard</title>
 
   @include('partials.inc_top')
+  <style>
+    body{
+        font-family: 'Battambang', cursive;
+        font-family: 'Chenla', cursive;
+        font-family: 'Hanuman', serif;
+        /* font-family: 'Kdam Thmor Pro', sans-serif; */
+    }
+  </style>
 
 
 </head>
@@ -47,10 +55,10 @@
 
 
   <footer class="main-footer">
-    <strong>Copyright &copy; 2023 <a href="https://github.com/thasocheat">Tha Socheat</a>.</strong>
-    All rights reserved.
+    <strong>{{trans('test.Copyright')}} &copy; {{trans('test.2023')}} <a href="https://github.com/Lysunsoeung/famely_income_expends_laravel">{{trans('test.Team:')}}</a>.</strong>
+    {{trans('test.All rights reserved.')}}
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> Testing
+      <b>{{trans('test.Version')}}</b> {{trans('test.Testing')}}
     </div>
   </footer>
 

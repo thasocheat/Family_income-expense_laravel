@@ -45,62 +45,21 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-2">
                                         <div class="form-group">
-                                            <label>Address: <span class="text-danger">*</span></label>
-                                            <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" >
-                                             @error('address')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Email address: <span class="text-danger">*</span></label>
-                                            <input value="{{ old('email') }}" type="email" name="email" class="form-control" placeholder="your@email.com">
-                                             @error('email')
+                                            <label for="gender">Gender: <span class="text-danger">*</span></label>
+                                            <select class="select form-control" id="gender" name="gender"  data-fouc data-placeholder="Choose..">
+                                                <option value=""></option>
+                                                <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
+                                                <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
+                                            </select>
+                                             @error('gender')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Username: <span class="text-danger">*</span></label>
-                                            <input value="{{ old('username') }}" type="text" name="username" class="form-control" placeholder="Username">
-                                             @error('username')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Phone:</label>
-                                            <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="+2341234567" >
-                                             @error('phone')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label>Telephone:</label>
-                                            <input value="{{ old('phone2') }}" type="text" name="phone2" class="form-control" placeholder="+2341234567" >
-                                             @error('phone2')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Date of Birth:</label>
                                             <div class="input-group date" id="date_of_birth" data-target-input="nearest">
@@ -111,7 +70,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3">
+
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Date of Em:</label>
                                             <div class="input-group date" id="date_of_em" data-target-input="nearest">
@@ -127,8 +87,30 @@
 
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Email address: <span class="text-danger">*</span></label>
+                                            <input value="{{ old('email') }}" type="email" name="email" class="form-control" placeholder="your@email.com">
+                                             @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Username: <span class="text-danger">*</span></label>
+                                            <input value="{{ old('username') }}" type="text" name="username" class="form-control" placeholder="Username">
+                                             @error('username')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="password">Password: <span class="text-danger">*</span></label>
                                             <input id="password" type="password" name="password" class="form-control"  >
@@ -138,28 +120,46 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="gender">Gender: <span class="text-danger">*</span></label>
-                                            <select class="select form-control" id="gender" name="gender"  data-fouc data-placeholder="Choose..">
-                                                <option value=""></option>
-                                                <option {{ (old('gender') == 'Male') ? 'selected' : '' }} value="Male">Male</option>
-                                                <option {{ (old('gender') == 'Female') ? 'selected' : '' }} value="Female">Female</option>
-                                            </select>
-                                             @error('gender')
+                                            <label>Address: <span class="text-danger">*</span></label>
+                                            <input value="{{ old('address') }}" class="form-control" placeholder="Address" name="address" type="text" >
+                                             @error('address')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                     </div>
 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Phone:</label>
+                                            <input value="{{ old('phone') }}" type="text" name="phone" class="form-control" placeholder="+2341234567" >
+                                             @error('phone')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
 
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Telephone:</label>
+                                            <input value="{{ old('phone2') }}" type="text" name="phone2" class="form-control" placeholder="+2341234567" >
+                                             @error('phone2')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>  
                                 </div>
 
 
 
                                 <div class="row">
                                     {{--PASSPORT--}}
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="d-block">Upload User Photo:</label>
                                             <input value="{{ old('photo') }}" accept="image/*" type="file" id="photo" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
@@ -169,8 +169,17 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+
+                                            @if(!empty($ut->photo) && file_exists(public_path($ut->photo)))
+
+                                                <img id="showImage" src="{{  asset('storage/uploads/'.$ut->photo) }}" alt="" srcset="" width="100" height="auto">
+                                                
+                                            @else
+                                                <img id="showImage" src="{{ asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+
+                                            @endif
                                            
-                                            <img id="showImage" src="{{ (!empty($ut->photo)) ? asset('storage/uploads/'.$ut->photo) : asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+                                            {{-- <img id="showImage" src="{{ (!empty($ut->photo)) ? asset('storage/uploads/'.$ut->photo) : asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto"> --}}
                                            
                                         </div>
                                     </div>

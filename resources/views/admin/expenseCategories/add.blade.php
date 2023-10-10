@@ -26,7 +26,7 @@
 
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="new-user">
-                            <form method="post" class="wizard-form steps-validation ajax-store" action="{{ route('ex_category.store') }}" data-fouc>
+                            <form method="post" class="wizard-form steps-validation" action="{{ route('ex_category.store') }}" data-fouc>
                                 @csrf
 
                                 <fieldset>
