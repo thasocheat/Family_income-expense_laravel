@@ -35,7 +35,7 @@ class UserAccountController extends Controller
 
         $profile_edit['pro_edit'] = Auth::user();
 
-        return view('Pages.account_user',$profile_edit);
+        return view('pages.account_user',$profile_edit);
     }
 
 
