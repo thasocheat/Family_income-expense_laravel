@@ -53,7 +53,7 @@
                                                     @php
                                                         $imageUrl = asset($u->photo);
                                                     @endphp
-                                                    <img width="50" src="{{ $imageUrl }}" alt="User Photo">
+                                                    <img width="50" src="{{ asset($u->photo) }}" alt="User Photo">
                                                 @else
 
                                                     <img width="50" src="{{ asset('images/no_image_available.jpg') }}" alt="Default Photo">
