@@ -67,7 +67,7 @@
               <img src="{{  asset(Auth::user()->photo) }}" alt="" srcset="" width="30" height="auto">
               
           @else
-              <img src="{{ asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="30" height="auto">
+              <img src="{{ asset('images/no_image_available.jpg') }}" alt="" srcset="" width="30" height="auto">
 
           @endif
 
