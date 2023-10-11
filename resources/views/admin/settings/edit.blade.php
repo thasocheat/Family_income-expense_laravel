@@ -101,7 +101,7 @@
                                             <img id="showImage" src="{{ $relativeUrl }}" width="100" height="auto" alt="User Photo">
                                             @else
 
-                                                <img id="showImage" src="{{ asset('storage/uploads/profile.png') }}" width="100" height="auto" alt="Default Photo">
+                                                <img id="showImage" src="{{ asset('images/no_image_available.jpg') }}" width="100" height="auto" alt="Default Photo">
 
                                             @endif
 

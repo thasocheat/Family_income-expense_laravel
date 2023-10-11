@@ -175,7 +175,7 @@
                                                 <img id="showImage" src="{{  asset('storage/uploads/'.$ut->photo) }}" alt="" srcset="" width="100" height="auto">
                                                 
                                             @else
-                                                <img id="showImage" src="{{ asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+                                                <img id="showImage" src="{{ asset('images/no_image_available.jpg') }}" alt="" srcset="" width="100" height="auto">
 
                                             @endif
                                            

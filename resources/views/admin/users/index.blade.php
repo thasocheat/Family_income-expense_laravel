@@ -171,7 +171,7 @@
                                                     <img src="{{  $u->photo }}" alt="{{  $u->name }}" srcset="" width="100" height="auto">
                                                     
                                                 @else
-                                                    <img src="{{ asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+                                                    <img src="{{ asset('images/no_image_available.jpg') }}" alt="" srcset="" width="100" height="auto">
 
                                                 @endif
                                                 {{-- <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ $u->photo }}" alt="photo"> --}}

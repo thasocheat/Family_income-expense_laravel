@@ -92,7 +92,7 @@
                                         </div>
                                         <div class="form-group">
 
-                                            <img id="showImage" src="{{ (!empty($ut->photo)) ? asset('storage/uploads/'.$ut->photo) : asset('storage/uploads/default-photo.png') }}" alt="" srcset="" width="100" height="auto">
+                                            <img id="showImage" src="{{ (!empty($ut->photo)) ? asset('storage/uploads/'.$ut->photo) : asset('images/no_image_available.jpg') }}" alt="" srcset="" width="100" height="auto">
 
                                         </div>
                                     </div>
