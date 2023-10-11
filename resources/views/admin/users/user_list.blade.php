@@ -56,7 +56,7 @@
                                                     <img width="50" src="{{ $imageUrl }}" alt="User Photo">
                                                 @else
 
-                                                    <img width="50" src="{{ asset('storage/uploads/default-photo.png') }}" alt="Default Photo">
+                                                    <img width="50" src="{{ asset('images/no_image_available.jpg') }}" alt="Default Photo">
 
                                                 @endif
                                             </td>
