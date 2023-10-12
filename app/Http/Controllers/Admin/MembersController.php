@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class MembersController extends Controller
 {
-    protected $user;
+    protected $user, $member;
 
     public function __construct(UserRepo $user)
     {
@@ -72,13 +72,16 @@ class MembersController extends Controller
             // Storage::disk('public')->put('uploads/members' . $fileName, file_get_contents($file));
             $destinationPath = public_path().'/storage/uploads/members';
             $file->move($destinationPath,$fileName);
+
+            // Photo path
+            $photoPath = 'storage/uploads/members/' . $fileName;
         }
 
 
         // send data to database
         // varrObj->databaseName = varGetFromInput
         $member = new Member();
-        $member->photo = $fileName;
+        $member->photo = $photoPath;
         $member->name = $name;
         $member->description = $description;
         $member->facebook = $facebook;
@@ -99,12 +102,18 @@ class MembersController extends Controller
 
     public function mem_edit($id) {
         $members = Member::where('id','=',$id)->first();
+        $fileName = $members->photo;
 
-        return view('admin.settings.edit', compact('members'));
+        $data = [
+            'fileName' => $fileName,
+        ];
+
+        return view('admin.settings.edit', compact('members'), $data);
     }
 
-    public function mem_update(Request $request, Member $member) {
+    public function mem_update(Request $request, Member $id) {
 
+         $member = $this->member->find($id);
         // Validate the request.
         $validate = $request->validate([
             'photo' => 'nullable|mimes:png,jpg,jpeg,gif,png|max:5048', // Allow photo to be optional
@@ -128,23 +137,42 @@ class MembersController extends Controller
 
         // Check if a new photo is uploaded.
         if ($request->hasFile('photo')) {
-            // Generate a unique filename for the new photo file.
-            $fileName = time() . '-' . $request->name . '.' . $request->file('photo')->getClientOriginalExtension();
+            // // Generate a unique filename for the new photo file.
+            // $fileName = time() . '-' . $request->name . '.' . $request->file('photo')->getClientOriginalExtension();
 
-            // Save the new photo file to the public/storage/uploads/members directory.
-            $request->photo->move(public_path('storage/uploads/members'), $fileName);
+            // // Save the new photo file to the public/storage/uploads/members directory.
+            // $request->photo->move(public_path('storage/uploads/members'), $fileName);
 
-            // Delete the existing photo file, if it exists.
-            if (!empty($member->photo) && File::exists(public_path('storage/uploads/members/' . $member->photo))) {
-                File::delete(public_path('storage/uploads/members/' . $member->photo));
+            // // Delete the existing photo file, if it exists.
+            // if (!empty($member->photo) && File::exists(public_path('storage/uploads/members/' . $member->photo))) {
+            //     File::delete(public_path('storage/uploads/members/' . $member->photo));
+            // }
+            // $oldPhotoPath = public_path('storage/uploads/members/' . $member->photo);
+
+            if($request->hasFile('photo')){
+                // Get the old photo path
+                $oldPhotoPath = public_path($member->photo);
+
+                // Delete the old photo if it exists
+                if(file_exists($oldPhotoPath)){
+                    unlink($oldPhotoPath);
+                }
             }
 
+            $member->update([
+                'photo' => $fileName,
+                // 'name' => $name,
+                // 'description' => $description,
+                // 'facebook' => $facebook,
+                // 'instagram' => $instagram,
+                // 'github' => $github,
+            ]);
 
         }
 
         // Update the member's record in the database.
         $member->update([
-            'photo' => $fileName,
+            // 'photo' => $fileName,
             'name' => $name,
             'description' => $description,
             'facebook' => $facebook,

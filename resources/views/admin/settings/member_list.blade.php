@@ -43,7 +43,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 @if (!empty($m->photo))
-                                                    <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ asset('storage/uploads/members/'.$m->photo) }}" alt="photo">
+                                                    <img class="rounded-circle" style="height: 40px; width: 40px;" src="{{ asset($m->photo) }}" alt="photo">
                                                 @else
                                                     <img width="50" src="{{ asset('images/no_image_available.jpg') }}" alt="Default Photo">
                                                 @endif

@@ -94,11 +94,11 @@
                                             @enderror
 
                                             @if (!empty($members->photo))
-                                            @php
+                                            {{-- @php
                                                 $imageUrl = asset('storage/uploads/members/' . basename($members->photo));
                                                 $relativeUrl = str_replace(url('/'), '', $imageUrl);
-                                            @endphp
-                                            <img id="showImage" src="{{ $relativeUrl }}" width="100" height="auto" alt="User Photo">
+                                            @endphp --}}
+                                            <img id="showImage" src="{{ asset($fileName) }}" width="100" height="auto" alt="User Photo">
                                             @else
 
                                                 <img id="showImage" src="{{ asset('images/no_image_available.jpg') }}" width="100" height="auto" alt="Default Photo">
