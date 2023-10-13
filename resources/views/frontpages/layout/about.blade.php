@@ -173,7 +173,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 mt-4">
 				<div class="card bg-transparent border-0 text-center">
 					<div class="card-img">
-						<img loading="lazy" decoding="async" src="{{ asset('storage/uploads/members/'.$m->photo) }}" alt="Scarlet Pena" class="rounded w-100" width="300" height="332">
+						<img loading="lazy" decoding="async" src="{{ asset($m->photo) }}" alt="Scarlet Pena" class="rounded w-100" width="300" height="332">
 						<ul class="card-social list-inline">
 							<li class="list-inline-item"><a class="facebook" target="_blank"  href="{{ $m->facebook }}"><i class="fab fa-facebook"></i></a>
 							</li>
