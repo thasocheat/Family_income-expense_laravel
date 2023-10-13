@@ -2,26 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Qs;
+// use Illuminate\Support\Str;
 use App\Models\Member;
-use Illuminate\Support\Str;
+// use App\Repositories\UserRepo;
+use App\Models\Members;
+// use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
-use App\Repositories\UserRepo;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class MembersController extends Controller
 {
-    protected $user, $member;
-
-    public function __construct(UserRepo $user)
-    {
-        $this->middleware('teamPA', ['only' => ['store', 'edit', 'update','reset_pass'] ]);
-
-        $this->middleware('admin', ['only' => ['destroy'] ]);
-
-        $this->user = $user;
-    }
+    protected $member;
+    
     /**
      * Display a listing of the resource.
      */
@@ -29,7 +23,9 @@ class MembersController extends Controller
     {
 
         // variable = ModelNme::method()
-        $members = Member::get();
+        $members = Members::get();
+
+        // dd($members);
         return view('admin.settings.member_list', compact('members'));
 
     }
@@ -80,7 +76,7 @@ class MembersController extends Controller
 
         // send data to database
         // varrObj->databaseName = varGetFromInput
-        $member = new Member();
+        $member = new Members();
         $member->photo = $photoPath;
         $member->name = $name;
         $member->description = $description;
@@ -94,6 +90,7 @@ class MembersController extends Controller
             'alert-type' => 'success'
         );
 
+        // dd($member);
         // return back()->with('flash_success', 'Data save successfully.');
         return Redirect()->back()->with($notification);
     }
@@ -101,22 +98,23 @@ class MembersController extends Controller
 
 
     public function mem_edit($id) {
-        $members = Member::where('id','=',$id)->first();
-        $fileName = $members->photo;
 
-        $data = [
-            'fileName' => $fileName,
-        ];
+        // dd($id);
+        // $id = Qs::decodeHash($id);
 
-        return view('admin.settings.edit', compact('members'), $data);
+
+        $data['members'] = Members::find($id);
+
+        // dd($data);
+        return view('admin.settings.edit', $data);
     }
 
-    public function mem_update(Request $request, Member $id) {
+    public function mem_update(Request $request, $id) {
 
-         $member = $this->member->find($id);
+
         // Validate the request.
         $validate = $request->validate([
-            'photo' => 'nullable|mimes:png,jpg,jpeg,gif,png|max:5048', // Allow photo to be optional
+            'photo' => 'sometimes|mimes:png,jpg,jpeg,gif,png|max:5048', // Allow photo to be optional
             'name' => 'required',
             'description' => 'required',
             'facebook' => 'required',
@@ -124,95 +122,120 @@ class MembersController extends Controller
             'github' => 'required',
         ]);
 
-        // Get the member's ID and name.
-        $id = $member->id;
-        $name = $request->name;
-        $description = $request->description;
-        $facebook = $request->facebook;
-        $instagram = $request->instagram;
-        $github = $request->github;
+         // Get the member's ID and name.
+         $member = Members::find($id);
 
-        // Initialize the file name to the current member's photo.
-        $fileName = $member->photo;
+         if(!$member){
+             return redirect()->back()->with('error', 'Member not found');
+         }
+
+        $data = [
+            'name' => $request->name,
+            'description' => $request->description,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
+            'github' => $request->github,
+        ];
+
+       
 
         // Check if a new photo is uploaded.
         if ($request->hasFile('photo')) {
-            // // Generate a unique filename for the new photo file.
-            // $fileName = time() . '-' . $request->name . '.' . $request->file('photo')->getClientOriginalExtension();
+            
+            // Delete the old photo if it exitsts
+             // Delete the old image
+             if(!empty($member->photo)){
+                // Extract the file name from the url and delete the file
+                $old_image = $member->photo;
 
-            // // Save the new photo file to the public/storage/uploads/members directory.
-            // $request->photo->move(public_path('storage/uploads/members'), $fileName);
+                // Extract the relative path from the storage link
+                $relativePath = str_replace('storage/', '', $old_image);
 
-            // // Delete the existing photo file, if it exists.
-            // if (!empty($member->photo) && File::exists(public_path('storage/uploads/members/' . $member->photo))) {
-            //     File::delete(public_path('storage/uploads/members/' . $member->photo));
-            // }
-            // $oldPhotoPath = public_path('storage/uploads/members/' . $member->photo);
-
-            if($request->hasFile('photo')){
-                // Get the old photo path
-                $oldPhotoPath = public_path($member->photo);
-
-                // Delete the old photo if it exists
-                if(file_exists($oldPhotoPath)){
-                    unlink($oldPhotoPath);
+                if (Storage::disk('public')->exists($relativePath)) {
+                    Storage::disk('public')->delete($relativePath);
                 }
             }
 
-            $member->update([
-                'photo' => $fileName,
-                // 'name' => $name,
-                // 'description' => $description,
-                // 'facebook' => $facebook,
-                // 'instagram' => $instagram,
-                // 'github' => $github,
-            ]);
+            $file = $request->file('photo');
+            $fileName = $file->getClientOriginalName();
+            $destinationPath = public_path(). '/storage/uploads/members';
+            $file->move($destinationPath, $fileName);
 
+            $data['photo'] = 'storage/uploads/members/' . $fileName;
+
+                        
+            
         }
 
-        // Update the member's record in the database.
-        $member->update([
-            // 'photo' => $fileName,
-            'name' => $name,
-            'description' => $description,
-            'facebook' => $facebook,
-            'instagram' => $instagram,
-            'github' => $github,
-        ]);
+       
+        //  If have any change the return the sucessfull message
+         if (!empty($data)){
+            $member->update($data);
 
-        // Return a redirect response with a success message.
-        $notification = array(
-            'message' => 'Member Update Successfully',
-            'alert-type' => 'info',
-        );
+            // Return a redirect response with a success message.
+            $notification = array(
+                'message' => 'Member Update Successfully',
+                'alert-type' => 'info',
+            );
 
-        return back()->with($notification);
+        }else{
+            // If no change the return into message
+            $notification = array(
+                'message' => 'No changes made to the member.',
+                'alert-type' => 'info'
+            );
+        }        
+
+        return redirect()->back()->with($notification);
+
+        
     }
 
 
 
     public function mem_show($id)
     {
-        $members = Member::where('id','=',$id)->first();
+        // $members = Member::where('id','=',$id)->first();
 
-        return view('admin.settings.show', compact('members'));
+        // dd($id);
+        // $id = Qs::decodeHash($id);
+
+        // if(!$id){return back();}
+
+        $data['member'] = Members::find($id);
+
+        // $member= $this->member->find($id);
+        // $data = [
+        //     'member' => $member,
+        // ];
+
+
+        // dd($data);
+
+        return view('admin.settings.show', $data);
     }
 
 
     public function mem_destroy($id) {
 
-        $member = Member::find($id);
+        // dd($id);
 
-        $old_image = $member->photo;
-
-        // Delete image from storage  reference
-        $image_path = public_path('storage/uploads/members/'.$old_image);
-            if(file_exists($image_path)){
-                unlink($image_path);
+        $members = Members::find($id);
+        if(!$members){
+            return redirect()->back()->with('error', 'Member not found!!');
         }
 
-        if ($member) {
-            $member->forceDelete(); // Delete the member record
+        $old_image = $members->photo;
+
+        // Extract the relative path from the storage link
+        $relativePath = str_replace('storage/', '', $old_image);
+
+        if (Storage::disk('public')->exists($relativePath)) {
+            Storage::disk('public')->delete($relativePath);
+        }
+
+        if ($members) {
+            $members->forceDelete(); // Delete the member record
         }
 
         $notification = array(
@@ -220,6 +243,7 @@ class MembersController extends Controller
             'alert-type' => 'success'
         );
 
+        // dd($members);
         return Redirect()->back()->with($notification);
     }
 }

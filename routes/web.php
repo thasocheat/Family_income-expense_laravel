@@ -78,7 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
         // Start Income route
-        Route::get('/view/incomes', [App\Http\Controllers\Admin\IncomeController::class, 'index'])->name('income_view');
+        // Route::get('/view/incomes', [App\Http\Controllers\Admin\IncomeController::class, 'index'])->name('income_view');
 
         // End income route
 

@@ -23,10 +23,18 @@
                         <div class="col-md-3 text-center">
                             <div class="card">
                                 <div class="card-body">
-                                    <img style="height: 200px; width: 200px; border-radius:15px; border:1px solid black" src="{{ asset('storage/uploads/members/'.$members->photo) }}" alt="photo">
+                                    @if (!empty($member->photo))
+                                    <img style="height: 200px; width: 200px; border-radius:15px; border:1px solid black" src="{{ asset($member->photo) }}" alt="photo">
+                                            
+                                            {{-- <img  src="{{ asset($member->photo) }}" width="100" height="auto" alt="User Photo"> --}}
+                                            @else
+
+                                                <img  src="{{ asset('images/no_image_available.jpg') }}" width="100" height="auto" alt="Default Photo">
+
+                                            @endif
 
                                     <br>
-                                    <h3 class="mt-3">{{ $members->name }}</h3>
+                                    <h3 class="mt-3">{{ $member->name }}</h3>
                                 </div>
                             </div>
                         </div>
@@ -35,7 +43,7 @@
                                 <div class="card-body">
                                     <ul class="nav nav-tabs nav-tabs-highlight">
                                         <li class="nav-item">
-                                            <a href="#" class="nav-link active" >{{ $members->name }}</a>
+                                            <a href="#" class="nav-link active" >{{ $member->name }}</a>
                                         </li>
                                     </ul>
 
@@ -46,23 +54,23 @@
                                                 <tbody>
                                                     <tr>
                                                         <td class="font-weight-bold">Name</td>
-                                                        <td>{{ $members->name }}</td>
+                                                        <td>{{ $member->name }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Description</td>
-                                                        <td>{{ $members->description }}</td>
+                                                        <td>{{ $member->description }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Facebook</td>
-                                                        <td>{{ $members->facebook }}</td>
+                                                        <td>{{ $member->facebook }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Telegram</td>
-                                                        <td>{{ $members->instagram }}</td>
+                                                        <td>{{ $member->instagram }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="font-weight-bold">Github</td>
-                                                        <td>{{ $members->github }}</td>
+                                                        <td>{{ $member->github }}</td>
                                                     </tr>
 
                                                 </tbody>

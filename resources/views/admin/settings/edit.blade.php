@@ -2,7 +2,7 @@
 @section('page_title', 'Manage Members')
 @section('content')
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script> --}}
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -16,17 +16,17 @@
 
 
                 <div class="card-body">
-
+                    {{-- @if(!empty($member)) --}}
 
                     <div class="tab-content">
-                        <form action=" {{ route('members.update',$members->id) }}" method="post" enctype="multipart/form-data"   data-fouc>
+                        <form method="post" action=" {{ route('members.update', Qs::hash($members->id)) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
 
                             <fieldset>
 
                                 <div class="row">
-                                    <input type="hidden" class="form-control" name="id" value='{{ $members->id }}'>
+                                    {{-- <input type="hidden" class="form-control" name="id" value='{{ $members->id }}'> --}}
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -95,10 +95,10 @@
 
                                             @if (!empty($members->photo))
                                             {{-- @php
-                                                $imageUrl = asset('storage/uploads/members/' . basename($members->photo));
+                                                $imageUrl = asset('storage/uploads/member/' . basename($member->photo));
                                                 $relativeUrl = str_replace(url('/'), '', $imageUrl);
                                             @endphp --}}
-                                            <img id="showImage" src="{{ asset($fileName) }}" width="100" height="auto" alt="User Photo">
+                                            <img id="showImage" src="{{ asset($members->photo) }}" width="100" height="auto" alt="User Photo">
                                             @else
 
                                                 <img id="showImage" src="{{ asset('images/no_image_available.jpg') }}" width="100" height="auto" alt="Default Photo">
@@ -123,6 +123,9 @@
                         </form>
 
                     </div>
+                    {{-- @else
+                    <p>Member not found!!!</p>
+                    @endif --}}
                 </div>
 
             </div>
