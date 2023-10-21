@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Helpers\Qs;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ChildRecordUpdate extends FormRequest
@@ -44,7 +45,13 @@ class ChildRecordUpdate extends FormRequest
     {
         $input = $this->all();
 
-        $input['my_parent_id'] = $input['my_parent_id'] ? Qs::decodeHash($input['my_parent_id']) : NULL;
+        if(isset($input['my_parent_id'])){
+            $input['my_parent_id'] = Qs::decodeHash($input['my_parent_id']);
+        }else{
+            $input['my_parent_id'] = Auth::user()->id;
+        }
+
+        // $input['my_parent_id'] = $input['my_parent_id'] ? Qs::decodeHash($input['my_parent_id']) : Auth::user()->id;
 
         $this->getInputSource()->replace($input);
 

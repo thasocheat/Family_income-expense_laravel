@@ -168,5 +168,17 @@ return [
     'Accepted Images: jpeg, png. Max file size 2Mb' => 'ប្រភេទរូបគីត្រូវតែ: jpeg, png. ហើយមានទំហំត្រឹមតែ ២មេកាបៃប៉ុណ្ណោះ',
     'Submit' => 'យល់ព្រម',
 
+    // Backend income
+    'Manage Category Income' => 'គ្រប់គ្រងចំណូលតាមប្រភេទ',
+    'Manage Category Expense' => 'គ្រប់គ្រងចំណាយតាមប្រភេទ',
+    'View Your Category' => 'មើលប្រភេទរបស់អ្នក',
+    'Create New Category' => 'បង្កើតប្រភេទថ្មី',
+    'Category Name:' => 'ឈ្មោះ​ប្រភេទ៖',
+    'Category Name' => 'ដាក់ឈ្មោះ​ប្រភេទ',
+    'Add Category' => 'បន្ថែមប្រភេទចំណូល',
+    'S/N' => 'លេខរៀង',
+    'Action' => 'សកម្មភាព',
+    'You dont have any category yet!!!' => 'អ្នកមិនទាន់មានប្រភេទទេ!!!',
+    'update' => 'កែប្រែថ្មី',
 
 ];

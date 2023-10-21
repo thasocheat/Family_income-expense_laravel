@@ -17,6 +17,7 @@ class ChildController extends Controller
             $data['incomeCategories'] = auth()->user()->incomeCategories;
             $data['expenseCategories'] = auth()->user()->expenseCategories;            
             $data['incomes'] = auth()->user()->incomes;
+            $data['expenses'] = auth()->user()->expenses;
             $data['parent'] = auth()->user()->parent;
             // Add more data you want to retrieve here
 

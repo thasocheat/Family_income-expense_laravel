@@ -3,19 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Expense;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use App\Models\ExpenseCategory;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreExpense;
-use App\Http\Requests\StoreIncomes;
+// use App\Http\Requests\StoreIncomes;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateExpense;
+// use App\Http\Requests\UpdateExpense;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+// use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\UpdateExpenses;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
-use App\Http\Controllers\Admin\ExpenseController;
+// use Illuminate\Support\Facades\Input;
+// use Illuminate\Support\Facades\Session;
 
 
 class ExpenseController extends Controller

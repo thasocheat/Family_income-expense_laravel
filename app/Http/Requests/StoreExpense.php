@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Requests\StoreExpense;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreExpense extends FormRequest

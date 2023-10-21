@@ -131,7 +131,7 @@
                                                     <div class="">
                                                         <input  accept="image/*" type="file" id="photo" name="photo" class="form-input-styled" data-fouc onchange="previewImage(event)">
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group mt-3">
                                                         @if(!empty($pro_edit->photo) && file_exists(public_path($pro_edit->photo)))
                                                             <img id="showImage" src="{{  Auth::user()->photo }}" alt="" srcset="" width="100" height="auto">
                                                         @else

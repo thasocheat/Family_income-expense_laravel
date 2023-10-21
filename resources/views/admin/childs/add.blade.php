@@ -55,20 +55,22 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="my_parent_id">{{ trans('test.Parent:') }}</label>
-                                        <select data-placeholder="Choose..."  name="my_parent_id" id="my_parent_id" class="select-search form-control">
-                                            <option  value=""></option>
-                                            @foreach($parents as $p)
-                                                <option {{ (old('my_parent_id') == Qs::hash($p->id)) ? 'selected' : '' }} value="{{ Qs::hash($p->id) }}">{{ $p->name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('my_parent_id')
-                                        <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                @if (Auth::user()->user_type === 'admin')
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="my_parent_id">{{ trans('test.Parent:') }}</label>
+                                            <select data-placeholder="Choose..."  name="my_parent_id" id="my_parent_id" class="select-search form-control">
+                                                <option  value=""></option>
+                                                @foreach($parents as $p)
+                                                    <option {{ (old('my_parent_id') == Qs::hash($p->id)) ? 'selected' : '' }} value="{{ Qs::hash($p->id) }}">{{ $p->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('my_parent_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
 
                             </div>
 

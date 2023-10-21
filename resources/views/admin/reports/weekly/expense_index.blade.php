@@ -1,6 +1,6 @@
 
 @extends('layouts.master')
-@section('page_title', 'Weekly Report Income')
+@section('page_title', 'Weekly Report Expense')
 
 @section('content')
 
@@ -151,7 +151,7 @@
                                 </table>
                                 <p>{{ $noDataMessage }}</p>
                 @else                   
-                        @foreach ($incomesSummary as $currencyCode => $summary )
+                        @foreach ($expensesSummary as $currencyCode => $summary )
                             <div class="col-6 table-responsive">
                             
                                     {{-- <h2>{{ $currencyCode }} Total: {{ $summary['total_amount'] }}</h2> --}}
@@ -179,14 +179,14 @@
                                                 
                                             
                                             @endphp
-                                            @foreach ($filteredIncomes->where('currency_code', $currencyCode) as $income)
+                                            @foreach ($filteredExpenses->where('currency_code', $currencyCode) as $expense)
                                                 @php
-                                                    $currencyTotal += $income->amount;                                               
+                                                    $currencyTotal += $expense->amount;                                               
                                                 @endphp
                                                 <tr>
-                                                    <td>{{ $income->entry_date }}</td>
-                                                    <td>{{ $income->description }}</td>
-                                                    <td>{{ number_format($income->amount, 2) }} {{ $currencyCode }}</td>
+                                                    <td>{{ $expense->entry_date }}</td>
+                                                    <td>{{ $expense->description }}</td>
+                                                    <td>{{ number_format($expense->amount, 2) }} {{ $currencyCode }}</td>
 
                                                 </tr>
                                             @endforeach
@@ -202,8 +202,8 @@
                             </div>
                                 @php
 
-                                    // Loop through $incomesSummary to calculate the totals
-                                    foreach ($incomesSummary as $currencyCode => $summary) {
+                                    // Loop through $expensesSummary to calculate the totals
+                                    foreach ($expensesSummary as $currencyCode => $summary) {
                                         $totalAmount = $summary['total_amount'];
 
                                         if ($currencyCode === 'KHR') {

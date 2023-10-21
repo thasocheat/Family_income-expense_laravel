@@ -43,7 +43,7 @@
                 <p>Total Income KHR</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person"></i>
+                
               </div>
             </div>
           </div>
@@ -57,7 +57,7 @@
                 <p>Total Income USD</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person"></i>
+                
               </div>
             </div>
           </div>
@@ -68,11 +68,11 @@
               <div class="inner">
                 {{-- <h3>{{ $users->where('user_type','parent')->count() }}</h3> --}}
 
-                <h3>0</h3>
+                <h3>@if(!$totalAmountsKHR_ex) {{0}} @else {{ number_format($totalAmountsKHR_ex, 2) }} ៛ @endif</h3>
                 <p>Total Expense KHR</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person"></i>
+                
               </div>
             </div>
           </div>
@@ -84,15 +84,57 @@
               <div class="inner">
                 {{-- <h3>{{ $users->where('user_type','child')->count() }}</h3> --}}
 
-                <h3>0</h3>
+                <h3>@if(!$totalAmountsUSD_ex) {{0}} @else {{ number_format($totalAmountsUSD_ex, 2) }} $ @endif</h3>
                 <p>Total Expense USD</p>
               </div>
               <div class="icon">
-                <i class="ion ion-person"></i>
+                
               </div>
             </div>
           </div>
 
+           
+
+        </div>
+
+        <div class="row text-center">
+          <div class="col-lg-3 col-6">
+              <h3>Total Balance USD and KHR</h3>
+          </div>
+        </div>
+        
+        <div class="row mt-5">
+          <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              
+            </div>
+          </div>
+
+           <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              <div class="inner">
+
+                <h3>@if(!$toUSD) {{0}} @else {{ number_format($toUSD, 2) }} $ @endif</h3>
+                <p>Total Balence USD</p>
+              </div>
+              <div class="icon">
+                
+              </div>
+            </div>
+          </div>
+
+           <div class="col-lg-3 col-6">
+            <div class="small-box bg-primary">
+              <div class="inner">
+
+                <h3>@if(!$toKHR) {{0}} @else {{ number_format($toKHR, 2) }} ៛ @endif</h3>
+                <p>Total Balence KHR</p>
+              </div>
+              <div class="icon">
+                
+              </div>
+            </div>
+          </div>
         </div>
         <!-- /.row -->
         <div class="row">

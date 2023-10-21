@@ -3,16 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Income;
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
 use App\Models\IncomeCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreIncomes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateIncomes;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Session;
+// use Illuminate\Support\Facades\Gate;
+// use Illuminate\Support\Facades\Input;
+// use Illuminate\Support\Facades\Session;
 
 
 class IncomesController extends Controller

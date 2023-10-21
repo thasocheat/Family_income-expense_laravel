@@ -12,8 +12,8 @@
 
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h6 class="card-title">Manage Category Income</h6>
-                    <a href="{{route('in_category.index')}}" class="btn btn-info float-right">View Your Category</a>
+                    <h6 class="card-title">{{ trans('test.Manage Category Income') }}</h6>
+                    <a href="{{route('in_category.index')}}" class="btn btn-info float-right">{{ trans('test.View Your Category') }}</a>
 
                 </div>
 

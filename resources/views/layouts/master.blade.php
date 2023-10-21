@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Dashboard</title>
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+	<link rel="icon" href="/logo.png" type="image/x-icon">
 
   @include('partials.inc_top')
   <style>

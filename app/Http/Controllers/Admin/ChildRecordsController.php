@@ -70,6 +70,11 @@ class ChildRecordsController extends Controller
 
          }
 
+        //  For parent users, associate the child with the parent who is createing them
+        if(Auth::user()->user_type === 'parent'){
+            $data['my_parent_id'] = Auth::user()->id;
+        }
+
          $user = $this->user->create($data); // Create User
 
          $cr['user_id'] = $user->id;

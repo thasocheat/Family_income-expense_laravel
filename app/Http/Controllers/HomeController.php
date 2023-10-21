@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Qs;
-use App\Models\ExpenseCategory;
 use App\Models\Income;
+use App\Models\Expense;
 use Illuminate\Http\Request;
 use App\Models\IncomeCategory;
 use App\Repositories\UserRepo;
+use App\Models\ExpenseCategory;
 
 class HomeController extends Controller
 {
@@ -69,6 +70,7 @@ class HomeController extends Controller
             $data['expenseCategories'] = ExpenseCategory::all();
 
             $data['incomes'] = Income::all();
+            $data['expenses'] = Expense::all();
         // }
         return view('pages.dashboard',$data);
 

@@ -12,8 +12,8 @@
 
             <div class="card">
                 <div class="card-header header-elements-inline">
-                    <h6 class="card-title">Manage Category Income</h6>
-                    <a href="{{route('in_category.create')}}" class="btn btn-info float-right">Add Category</a>
+                    <h6 class="card-title">{{ trans('test.Manage Category Income') }}</h6>
+                    <a href="{{route('in_category.create')}}" class="btn btn-info float-right">{{ trans('test.Add Category') }}</a>
 
                 </div>
 
@@ -56,13 +56,13 @@
                             <table class="table datatable-button-html5-columns">
                                 <thead>
                                 <tr>
-                                    <th>S/N</th>
-                                    <th>Name</th>
-                                    <th>Action</th>
+                                    <th>{{ trans('test.S/N') }}</th>
+                                    <th>{{ trans('test.Name') }}</th>
+                                    <th>{{ trans('test.Action') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr><td>You don't have any category yet!!!</td></tr>
+                                    <tr><td>{{ trans('test.You dont have any category yet!!!') }}</td></tr>
                                 </tbody>
                             </table>
                         @endif

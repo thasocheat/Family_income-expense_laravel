@@ -36,7 +36,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>{{ $incomeCategories->count() }}</h3>
+                <h3>@if(!$incomeCategories) {{0}} @else {{$incomeCategories->count()}} @endif</h3>
 
 
                 <p>Total Category Income</p>
@@ -51,9 +51,35 @@
             <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
-                <h3>{{ $expenseCategories->count() }}</h3>
+                <h3>@if(!$expenseCategories) {{0}} @else {{$expenseCategories->count()}} @endif</h3>
 
                 <p>Total Category Expense</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>@if(!$expenses) {{0}} @else {{$expenses->count()}} @endif</h3>
+
+                <p>Total Expense</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>@if(!$incomes) {{0}} @else {{$incomes->count()}} @endif</h3>
+
+                <p>Total Incomes</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person"></i>

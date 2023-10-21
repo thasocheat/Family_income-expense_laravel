@@ -177,6 +177,18 @@ return [
     'Accepted Images: jpeg, png. Max file size 2Mb' => 'Accepted Images: jpeg, png. Max file size 2Mb',
     'Submit' => 'Submit',
 
+    // Backend income
+    'Manage Category Income' => 'Manage Category Income',
+    'Manage Category Expense' => 'Manage Category Expense',
+    'View Your Category' => 'View Your Category',
+    'Create New Category' => 'Create New Category',
+    'Category Name:' => 'Category Name:',
+    'Category Name' => 'Category Name',
+    'Add Category' => 'Add Category',
+    'S/N' => 'S/N',
+    'Action' => 'Action',
+    'You dont have any category yet!!!' => 'You dont have any category yet!!!',
+    'update' => 'update',
 
 
 

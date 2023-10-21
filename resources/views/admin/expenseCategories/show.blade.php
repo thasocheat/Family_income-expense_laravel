@@ -16,7 +16,7 @@
                     <table class="table datatable-button-html5-columns">
                         <thead>
                         <tr>
-                            <th>S/N</th>
+                            <th>{{ trans('test.S/N') }}</th>
                             <th>Photo</th>
                             <th>Name</th>                           
                             <th>Email</th>
@@ -53,7 +53,7 @@
                     <table class="table datatable-button-html5-columns">
                         <thead>
                         <tr>
-                            <th>S/N</th>
+                            <th>{{ trans('test.S/N') }}/th>
                             <th>Photo</th>
                             <th>Name</th>
                             {{-- <th>ADM_No</th> --}}

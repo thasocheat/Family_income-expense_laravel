@@ -267,7 +267,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/get/monthly/expense/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_monthly_expense'])->name('view.monthly.expense');
 
         // Yearly report
-        Route::get('/get/yearly/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_yearly'])->name('view.yearly');
+        Route::get('/show/yearly/report', [App\Http\Controllers\Admin\ReportsController::class, 'view_yearly_index'])->name('view.yearly');
+        Route::get('/get/yearly/income/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_yearly_income'])->name('view.yearly.income');
+        Route::get('/get/yearly/expense/report', [App\Http\Controllers\Admin\ReportsController::class, 'get_yearly_expense'])->name('view.yearly.expense');
 
 
 

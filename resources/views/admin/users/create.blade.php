@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-2">
+                                    {{-- <div class="col-md-2">
                                         <div class="form-group">
                                             <label>Date of Em:</label>
                                             <div class="input-group date" id="date_of_em" data-target-input="nearest">
@@ -80,13 +80,9 @@
                                                     <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                                 </div>
                                             </div>
-                                            {{-- <input autocomplete="off" name="emp_date" value="{{ old('emp_date') }}" type="text" class="form-control date-pick" placeholder="Select Date..."> --}}
-                                             {{-- @error('emp_date')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror --}}
 
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
 
                                 <div class="row">
