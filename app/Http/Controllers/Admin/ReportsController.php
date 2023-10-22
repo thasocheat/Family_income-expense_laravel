@@ -702,24 +702,43 @@ class ReportsController extends Controller
             $data['noDataMessage'] = "No data found for the selected year.";
         }else{
 
-            $incomesTotal = $filteredIncomes->sum('amount');
+            // $incomesTotal = $filteredIncomes->sum('amount');
 
-            // Group the filtered incomes by income category
-            $groupedIncoems = $filteredIncomes->groupBy('income_category_id');
+            // // Group the filtered incomes by income category
+            // $groupedIncoems = $filteredIncomes->groupBy('income_category_id');
 
-            $incomesSummary = [];
+            // $incomesSummary = [];
 
-            foreach($groupedIncoems as $incomeCategoryId => $incomes){
-                    $incomeCategory = $incomes->first()->income_category->name;
-                    $incomesSummary[$incomeCategory] = [
-                        'name' => $incomeCategory,
-                        'amount' => $incomes->sum('amount'),
+            // foreach($groupedIncoems as $incomeCategoryId => $incomes){
+            //         $incomeCategory = $incomes->first()->income_category->name;
+            //         $incomesSummary[$incomeCategory] = [
+            //             'name' => $incomeCategory,
+            //             'amount' => $incomes->sum('amount'),
+            //         ];
+
+            // }
+
+            // Group the filtered incomes by currency_code
+            $groupedIncoems = $filteredIncomes->groupBy('currency_code');
+
+
+            foreach($groupedIncoems as $currencyCode => $incomes){
+                    // $incomeCategory = $incomes->first()->income_category->name;
+                    // $incomesSummary[$incomeCategory] = [
+                    //     'name' => $incomeCategory,
+                    //     'amount' => $incomes->sum('amount'),
+                    // ];
+                    $totalAmount = $incomes->sum('amount');
+
+                    $incomesSummary[$currencyCode] = [
+                        'currency_code' => $currencyCode,
+                        'total_amount' => $totalAmount,
                     ];
 
             }
 
             $data = [
-                'incomesTotal' => $incomesTotal,
+                // 'incomesTotal' => $incomesTotal,
                 'selectedYear' => $year,
                 'years' => $years,
 
@@ -775,24 +794,39 @@ class ReportsController extends Controller
             $data['noDataMessage'] = "No data found for the selected year.";
         }else{
 
-            $expensesTotal = $filteredExpenses->sum('amount');
+            // $expensesTotal = $filteredExpenses->sum('amount');
 
-            // Group the filtered incomes by income category
-            $groupedExpenses = $filteredExpenses->groupBy('expense_category_id');
+            // // Group the filtered incomes by income category
+            // $groupedExpenses = $filteredExpenses->groupBy('expense_category_id');
 
-            $expensesSummary = [];
+            // $expensesSummary = [];
 
-            foreach($groupedExpenses as $expensesCategoryId => $incomes){
-                    $expensesCategory = $incomes->first()->expense_category->name;
-                    $expensesSummary[$expensesCategory] = [
-                        'name' => $expensesCategory,
-                        'amount' => $incomes->sum('amount'),
+            // foreach($groupedExpenses as $expensesCategoryId => $incomes){
+            //         $expensesCategory = $incomes->first()->expense_category->name;
+            //         $expensesSummary[$expensesCategory] = [
+            //             'name' => $expensesCategory,
+            //             'amount' => $incomes->sum('amount'),
+            //         ];
+
+            // }
+
+            // Group the filtered expenses by income category
+            $groupedExpenses = $filteredExpenses->groupBy('currency_code');
+
+
+            foreach($groupedExpenses as $currencyCode => $expenses){
+                    
+                    $totalAmount = $expenses->sum('amount');
+
+                    $expensesSummary[$currencyCode] = [
+                        'currency_code' => $currencyCode,
+                        'total_amount' => $totalAmount,
                     ];
 
             }
 
             $data = [
-                'expensesTotal' => $expensesTotal,
+                // 'expensesTotal' => $expensesTotal,
                 'selectedYear' => $year,
                 'years' => $years,
 

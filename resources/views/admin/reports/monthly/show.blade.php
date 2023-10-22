@@ -99,7 +99,7 @@
 
         <div class="row text-center">
           <div class="col-lg-3 col-6">
-              <h3>Total Balance USD and KHR</h3>
+              <h5>Total Balance USD and KHR</h5>
           </div>
         </div>
         

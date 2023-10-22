@@ -26,7 +26,7 @@
 
                             <div class="row">
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="entry_date">Entry Date</label>
                                     <input value="{{ $expense->entry_date }}" type="date" name="entry_date" class="form-control">
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="amount">Amount</label>
                                     <input value="{{ $expense->amount }}" type="number" name="amount" class="form-control" >
@@ -46,7 +46,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                             <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="currency_code">Curreny:  <span class="text-danger">*</span></label>
+                                    <select class="select form-control select3" id="currency_code" name="currency_code"  data-fouc data-placeholder="Choose..">
+                                        <option value="KHR" {{$expense->currency_code === 'KHR' ? 'selected':''}}>KHR</option>
+                                        <option value="USD" {{$expense->currency_code === 'USD' ? 'selected':''}}>USD</option>
+                                    </select>
+                                    @error('currency_code')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="income_category_id">Expense Category: <span class="text-danger">*</span></label>
                                     <select class="select form-control select3" id="expense_category_id" name="expense_category_id"  data-fouc data-placeholder="Choose..">
@@ -61,6 +74,8 @@
                                     @enderror
                                 </div>
                             </div>
+
+                            
 
                             </div>
 
